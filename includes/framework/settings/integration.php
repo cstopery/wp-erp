@@ -125,7 +125,7 @@ class ERP_Integration_Settings extends ERP_Settings_Page {
 
         if ( $current_section ) {
             foreach ( $integrations as $integration_key => $integration ) {
-                if ( strtolower( $integration_key ) == $current_section ) {
+                if ( strtolower( $integration_key ) === $current_section ) {
                     $integration->admin_options();
                     break;
                 }

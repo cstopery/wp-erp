@@ -140,6 +140,8 @@ class Scripts {
 
         // core css files
         wp_register_style( 'erp-styles', $css . '/admin.css', false, $this->version );
+
+        wp_register_style( 'erp-custom-menu', $css . '/custom-menu.css', false, $this->version );
     }
 
     /**
@@ -188,7 +190,7 @@ class Scripts {
             wp_localize_script( 'erp-script', 'wpErpCountries', $country->load_country_states() );
         }
 
-        if ( erp_is_current_page( 'erp-hr', 'employee' ) || erp_is_current_page( 'erp-hr', 'my-profile' ) || ( isset( $_GET['page'] ) && 'erp-company' === $_GET['page'] ) ) {
+        if ( erp_is_current_page( 'erp-hr', 'people', 'employee' ) || erp_is_current_page( 'erp-hr', 'my-profile' ) || ( isset( $_GET['page'] ) && 'erp-company' === $_GET['page'] ) ) {
             $country = \WeDevs\ERP\Countries::instance();
             wp_localize_script( 'erp-script', 'wpErpCountries', $country->load_country_states() );
         }
@@ -205,5 +207,6 @@ class Scripts {
         wp_enqueue_style( 'jquery-ui' );
 
         wp_enqueue_style( 'erp-styles' );
+        wp_enqueue_style( 'erp-custom-menu' );
     }
 }
