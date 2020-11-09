@@ -1,5 +1,4 @@
 <?php
-
 namespace WeDevs\ERP\HRM;
 
 use WP_List_Table;
@@ -44,7 +43,6 @@ class Designation_List_Table extends WP_List_Table {
 
         switch ( $column_name ) {
             case 'name':
-
             case 'number_employee':
                 return $designation->num_of_employees();
 
@@ -78,7 +76,7 @@ class Designation_List_Table extends WP_List_Table {
     public function column_name( $designation ) {
         $actions           = [];
         $delete_url        = '';
-        $link_to_employee  = add_query_arg( [ 'page'=>'erp-hr', 'section' => 'people', 'sub-section' => 'employee', 'filter_designation' => $designation->id ], admin_url( 'admin.php' ) );
+        $link_to_employee  = add_query_arg( [ 'page' => 'erp-hr', 'section' => 'people', 'sub-section' => 'employee', 'filter_designation' => $designation->id ], admin_url( 'admin.php' ) );
         $actions['edit']   = sprintf( '<a href="%s" data-id="%d" title="%s">%s</a>', $delete_url, $designation->id, __( 'Edit this item', 'erp' ), __( 'Edit', 'erp' ) );
         $actions['delete'] = sprintf( '<a href="%s" class="submitdelete" data-id="%d" title="%s">%s</a>', $delete_url, $designation->id, __( 'Delete this item', 'erp' ), __( 'Delete', 'erp' ) );
 
@@ -134,7 +132,7 @@ class Designation_List_Table extends WP_List_Table {
         $base_link      = admin_url( 'admin.php?page=erp-hr&section=leave' );
 
         foreach ( $this->counts as $key => $value ) {
-            $class                = ( $key == $this->page_status ) ? 'current' : 'status-' . $key;
+            $class                = ( $key === $this->page_status ) ? 'current' : 'status-' . $key;
             $status_links[ $key ] = sprintf( '<a href="%s" class="%s">%s <span class="count">(%s)</span></a>', add_query_arg( [ 'status' => $key ], $base_link ), $class, $value['label'], $value['count'] );
         }
 
@@ -148,7 +146,7 @@ class Designation_List_Table extends WP_List_Table {
      */
     public function prepare_items() {
         $columns               = $this->get_columns();
-        $hidden                = [ ];
+        $hidden                = [];
         $sortable              = $this->get_sortable_columns();
         $this->_column_headers = [ $columns, $hidden, $sortable ];
 

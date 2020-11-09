@@ -1,4 +1,3 @@
-
 <?php
 $feeds_tab = erp_crm_get_customer_feeds_nav();
 $crm_users = erp_crm_get_crm_user();

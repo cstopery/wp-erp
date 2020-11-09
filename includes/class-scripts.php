@@ -1,5 +1,4 @@
 <?php
-
 namespace WeDevs\ERP;
 
 use WeDevs\ERP\Framework\Traits\Hooker;
@@ -127,7 +126,7 @@ class Scripts {
         wp_register_style( 'erp-jvectormap', $vendor . '/jvectormap/jvectormap.css', false, $this->version );
 
         // jquery UI
-        wp_register_style( 'jquery-ui', $vendor . '/jquery-ui/jquery-ui-1.9.1.custom.css' );
+        wp_register_style( 'jquery-ui', $vendor . '/jquery-ui/jquery-ui-1.9.1.custom.css', false, $this->version );
 
         // sweet alert
         wp_register_style( 'erp-sweetalert', $vendor . '/sweetalert/sweetalert.css', false, $this->version );
@@ -174,13 +173,13 @@ class Scripts {
             'plupload'        => [
                 'url'              => admin_url( 'admin-ajax.php' ) . '?nonce=' . wp_create_nonce( 'erp_featured_img' ),
                 'flash_swf_url'    => includes_url( 'js/plupload/plupload.flash.swf' ),
-                'filters'          => [['title' => __( 'Allowed Files' ), 'extensions' => '*']],
+                'filters'          => [ [ 'title' => __( 'Allowed Files', 'erp' ), 'extensions' => '*' ] ],
                 'multipart'        => true,
                 'urlstream_upload' => true,
             ],
         ] );
 
-        wp_enqueue_script( 'erp-menu', WPERP_ASSETS . '/js/erp-menu.js', [], date( 'Ymd' ), true );
+        wp_enqueue_script( 'erp-menu', WPERP_ASSETS . '/js/erp-menu.js', [], gmdate( 'Ymd' ), true );
 
         // load country/state JSON on new company page
         if ( erp_is_contacts_page() ) {

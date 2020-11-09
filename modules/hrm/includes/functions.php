@@ -62,14 +62,14 @@ function erp_hr_get_work_days_without_off_day( $start_date, $end_date, $user_id 
     $holiday_exist = erp_hr_leave_get_holiday_between_date_range( $start_date, $end_date );
 
     foreach ( $between_dates as $date ) {
-        $key       = strtolower( date( 'D', strtotime( $date ) ) );
+        $key       = strtolower( gmdate( 'D', strtotime( $date ) ) );
         $is_holidy = ( $work_days[ $key ] == 0 ) ? true : false;
 
         if ( ! $is_holidy ) {
-            $is_holidy = in_array( $date, $holiday_exist ) ? true : false;
+            $is_holidy = in_array( $date, $holiday_exist, true ) ? true : false;
         }
 
-        if ( class_exists( '\WeDevs\ERP_PRO\PRO\AdvancedLeave\Module' ) && get_option( 'erp_pro_sandwich_leave', '' ) === 'yes'  ) {
+        if ( class_exists( '\WeDevs\ERP_PRO\PRO\AdvancedLeave\Module' ) && get_option( 'erp_pro_sandwich_leave', '' ) === 'yes' ) {
             $dates['days'][] = [
                 'date'  => $date,
                 'count' => (int) ! $is_holidy,
@@ -128,7 +128,7 @@ function erp_hr_get_work_days_between_dates( $start_date, $end_date, $user_id = 
     }
 
     foreach ( $between_dates as $date ) {
-        $key       = strtolower( date( 'D', strtotime( $date ) ) );
+        $key       = strtolower( gmdate( 'D', strtotime( $date ) ) );
         $is_holidy = ( $work_days[ $key ] == '0' ) ? true : false;
 
         if ( ! $is_holidy ) {
@@ -140,7 +140,7 @@ function erp_hr_get_work_days_between_dates( $start_date, $end_date, $user_id = 
             'count' => (int) ! $is_holidy,
         ];
 
-        if ( class_exists( '\WeDevs\ERP_PRO\PRO\AdvancedLeave\Module' ) && get_option( 'erp_pro_sandwich_leave', '' ) === 'yes'  ) {
+        if ( class_exists( '\WeDevs\ERP_PRO\PRO\AdvancedLeave\Module' ) && get_option( 'erp_pro_sandwich_leave', '' ) === 'yes' ) {
             ++$dates['total'];
 
             // mark sandwich rule to true
@@ -201,11 +201,11 @@ function erp_hr_can_apply_sandwich_rules_between_dates( $start_date, $end_date, 
                 $previous_holiday_exist = erp_hr_leave_get_holiday_between_date_range( $last_req_end_date, $start_day_previous );
 
                 foreach ( $previous_between_dates as $date ) {
-                    $key       = strtolower( date( 'D', strtotime( $date ) ) );
+                    $key       = strtolower( gmdate( 'D', strtotime( $date ) ) );
                     $is_holidy = ( $work_days[ $key ] == '0' ) ? true : false;
 
                     if ( ! $is_holidy ) {
-                        $is_holidy = in_array( $date, $previous_holiday_exist ) ? true : false;
+                        $is_holidy = in_array( $date, $previous_holiday_exist, true ) ? true : false;
                     }
 
                     if ( $is_holidy ) {
@@ -241,11 +241,11 @@ function erp_hr_can_apply_sandwich_rules_between_dates( $start_date, $end_date, 
                 $previous_holiday_exist = erp_hr_leave_get_holiday_between_date_range( $end_date_next_day, $last_req_start_date );
 
                 foreach ( $previous_between_dates as $date ) {
-                    $key       = strtolower( date( 'D', strtotime( $date ) ) );
+                    $key       = strtolower( gmdate( 'D', strtotime( $date ) ) );
                     $is_holidy = ( $work_days[ $key ] == '0' ) ? true : false;
 
                     if ( ! $is_holidy ) {
-                        $is_holidy = in_array( $date, $previous_holiday_exist ) ? true : false;
+                        $is_holidy = in_array( $date, $previous_holiday_exist, true ) ? true : false;
                     }
 
                     if ( $is_holidy ) {
@@ -365,7 +365,7 @@ function erp_hr_login_redirect( $redirect_to, $roles ) {
     $hr_role       = erp_hr_get_manager_role();
     $employee_role = erp_hr_get_employee_role();
 
-    if ( in_array( $hr_role, $roles ) || in_array( $employee_role, $roles ) ) {
+    if ( in_array( $hr_role, $roles, true ) || in_array( $employee_role, $roles, true ) ) {
         $redirect_to = get_admin_url( null, 'admin.php?page=erp-hr' );
     }
 
@@ -409,7 +409,7 @@ function erp_hr_filter_collection_by_date( $collection, $date, $field = 'created
 }
 
 /**
- * get the list of email who disabled notification from wperp
+ * Get the list of email who disabled notification from wperp
  *
  * @since 1.3.10
  *
@@ -424,6 +424,7 @@ function erp_hr_get_disabled_notification_users() {
             'meta_key'   => 'erp_hr_disable_notification',
             'meta_value' => 'on',
         ] );
+
         $user_emails = [];
 
         if ( $user_query->get_total() ) {
@@ -435,8 +436,9 @@ function erp_hr_get_disabled_notification_users() {
 
     return $user_emails;
 }
+
 /**
- * exclude recipients per profile settings
+ * Exclude recipients per profile settings
  *
  * @since 1.3.10
  *
@@ -507,7 +509,7 @@ function erp_hr_get_people_menu_dropdown_html( $selected = 'employee' ) {
         </div>
         <ul class="erp-options">
             <?php foreach ( $dropdown as $key => $value ) : ?>
-            <li><a href="<?php echo ( 'announcement' !== $key ) ? add_query_arg( array( 'sub-section' => $key ), admin_url( "admin.php?page=erp-hr&section=people" ) ) : admin_url( 'edit.php?post_type=erp_hr_announcement' ); ?>" class="" data-key="<?php echo $key; ?>"><?php echo $value; ?></a></li>
+            <li><a href="<?php echo ( 'announcement' !== $key ) ? add_query_arg( array( 'sub-section' => $key ), admin_url( 'admin.php?page=erp-hr&section=people' ) ) : admin_url( 'edit.php?post_type=erp_hr_announcement' ); ?>" class="" data-key="<?php echo $key; ?>"><?php echo $value; ?></a></li>
             <?php endforeach; ?>
         </ul>
     </div>

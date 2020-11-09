@@ -1,5 +1,4 @@
 <?php
-
 namespace WeDevs\ERP\HRM\Admin;
 
 use WeDevs\ERP\HRM\Employee;
@@ -53,31 +52,6 @@ class Admin_Menu {
                 'position'      => 3,
             ] );
         }
-
-        // erp_add_menu( 'hr', [
-        //     'title'         => __( 'Departments', 'erp' ),
-        //     'capability'    => 'erp_manage_department',
-        //     'slug'          => 'department',
-        //     'callback'      => [ $this, 'department_page' ],
-        //     'position'      => 10,
-        // ] );
-
-        // erp_add_menu( 'hr', [
-        //     'title'         => __( 'Designations', 'erp' ),
-        //     'capability'    => 'erp_manage_designation',
-        //     'slug'          => 'designation',
-        //     'callback'      => [ $this, 'designation_page' ],
-        //     'position'      => 15,
-        // ] );
-
-        // erp_add_menu( 'hr', [
-        //     'title'         => __( 'Announcements', 'erp' ),
-        //     'capability'    => 'erp_manage_announcement',
-        //     'slug'          => 'announcement',
-        //     'direct_link'   => admin_url( 'edit.php?post_type=erp_hr_announcement' ),
-        //     'callback'      => '',
-        //     'position'      => 20,
-        // ] );
 
         erp_add_menu( 'hr', [
             'title'         => __( 'Reports', 'erp' ),
@@ -211,13 +185,13 @@ class Admin_Menu {
     public function router() {
         $component = 'hr';
         $menu      = erp_menu();
-        $menu      = $menu[$component];
+        $menu      = $menu[ $component ];
 
-        $section = ( isset( $_GET['section'] ) && isset( $menu[$_GET['section']] ) ) ? sanitize_text_field( wp_unslash( $_GET['section'] ) ) : 'dashboard';
-        $sub     = ( isset( $_GET['sub-section'] ) && !empty( $menu[$section]['submenu'][$_GET['sub-section']] ) ) ? sanitize_text_field( wp_unslash( $_GET['sub-section'] ) ) : false;
+        $section = ( isset( $_GET['section'] ) && isset( $menu[ $_GET['section'] ] ) ) ? sanitize_text_field( wp_unslash( $_GET['section'] ) ) : 'dashboard';
+        $sub     = ( isset( $_GET['sub-section'] ) && ! empty( $menu[ $section ]['submenu'][ $_GET['sub-section'] ] ) ) ? sanitize_text_field( wp_unslash( $_GET['sub-section'] ) ) : false;
 
         // check permission/capability
-        $permission = $menu[$section]['capability'];
+        $permission = $menu[ $section ]['capability'];
 
         if ( ! current_user_can( $permission ) ) {
             $error_message  = '<h2 style="text-align: center; margin-top:40px">';
@@ -227,10 +201,10 @@ class Admin_Menu {
             wp_die( wp_kses_post( $error_message ) );
         }
 
-        $callback = $menu[$section]['callback'];
+        $callback = $menu[ $section ]['callback'];
 
         if ( $sub ) {
-            $callback = $menu[$section]['submenu'][$sub]['callback'];
+            $callback = $menu[ $section ]['submenu'][ $sub ]['callback'];
         }
 
         erp_render_menu( $component );
@@ -342,7 +316,7 @@ class Admin_Menu {
         if ( file_exists( $template ) ) {
             $is_my_profile_page = false;
 
-            if ( get_current_user_id() == $id ) {
+            if ( get_current_user_id() === $id ) {
                 $is_my_profile_page = true;
             }
 
@@ -524,9 +498,11 @@ class Admin_Menu {
     public function highlight_menu() {
         $screen = get_current_screen();
 
-        if ( $screen->parent_file != 'admin.php?page=erp' ) {
+        if ( $screen->parent_file !== 'admin.php?page=erp' ) {
             return;
-        } ?>
+        }
+
+        ?>
         <script type="text/javascript">
             jQuery(document).ready( function($) {
                 $('li.toplevel_page_erp').removeClass('wp-not-current-submenu').addClass('wp-has-current-submenu wp-menu-open');
@@ -546,7 +522,7 @@ class Admin_Menu {
     public function highlight_submenu( $parent_file ) {
         global $parent_file, $submenu_file, $post_type;
 
-        if ( 'erp_hr_announcement' == $post_type || 'erp_hr_questionnaire' == $post_type ) {
+        if ( 'erp_hr_announcement' === $post_type || 'erp_hr_questionnaire' === $post_type ) {
             $parent_file  = 'admin.php?page=erp';
             $submenu_file = 'erp-hr';
         }

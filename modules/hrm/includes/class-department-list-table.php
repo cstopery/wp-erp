@@ -1,5 +1,4 @@
 <?php
-
 namespace WeDevs\ERP\HRM;
 
 /**
@@ -79,7 +78,7 @@ class Department_List_Table extends \WP_List_Table {
             }
 
             if ( $count >= $start ) {
-                $to_display[$page->id] = $level;
+                $to_display[ $page->id ] = $level;
             }
 
             $count++;
@@ -98,7 +97,7 @@ class Department_List_Table extends \WP_List_Table {
                     }
 
                     if ( $count >= $start ) {
-                        $to_display[$op->id] = 0;
+                        $to_display[ $op->id ] = 0;
                     }
 
                     $count++;
@@ -125,14 +124,14 @@ class Department_List_Table extends \WP_List_Table {
      * @return void
      */
     private function _page_rows( &$children_departments, &$count, $parent, $level, $pagenum, $per_page, &$to_display ) {
-        if ( ! isset( $children_departments[$parent] ) ) {
+        if ( ! isset( $children_departments[ $parent ] ) ) {
             return;
         }
 
         $start = ( $pagenum - 1 ) * $per_page;
         $end   = $start + $per_page;
 
-        foreach ( $children_departments[$parent] as $page ) {
+        foreach ( $children_departments[ $parent ] as $page ) {
             if ( $count >= $end ) {
                 break;
             }
@@ -153,21 +152,23 @@ class Department_List_Table extends \WP_List_Table {
                     $my_parent    = (object) \WeDevs\ERP\HRM\Models\Department::find( $parent_id )->toArray(); //get_post( $parent_id );
                     $my_parents[] = $my_parent;
 
-                    if ( !$my_parent->parent ) {
+                    if ( ! $my_parent->parent ) {
                         break;
                     }
+
                     $my_parent = $my_parent->parent;
                 }
+
                 $num_parents = count( $my_parents );
 
                 while ( $my_parent = array_pop( $my_parents ) ) {
-                    $to_display[$my_parent->id] = $level - $num_parents;
+                    $to_display[ $my_parent->id ] = $level - $num_parents;
                     $num_parents--;
                 }
             }
 
             if ( $count >= $start ) {
-                $to_display[$page->id] = $level;
+                $to_display[ $page->id ] = $level;
             }
 
             $count++;
@@ -175,7 +176,7 @@ class Department_List_Table extends \WP_List_Table {
             $this->_page_rows( $children_departments, $count, $page->id, $level + 1, $pagenum, $per_page, $to_display );
         }
 
-        unset( $children_departments[$parent] ); //required in order to keep track of orphans
+        unset( $children_departments[ $parent ] ); //required in order to keep track of orphans
     }
 
     /**
@@ -198,7 +199,7 @@ class Department_List_Table extends \WP_List_Table {
                     ?>
                     <th scope="row" class="check-column">
 
-                        <label class="screen-reader-text" for="cb-select-<?php the_ID(); ?>"><?php printf( esc_html__( 'Select %s' ), esc_html( $department->title ) ); ?></label>
+                        <label class="screen-reader-text" for="cb-select-<?php the_ID(); ?>"><?php printf( esc_html__( 'Select %s', 'erp' ), esc_html( $department->title ) ); ?></label>
                         <input id="cb-select-<?php the_ID(); ?>" type="checkbox" name="department_id[]" value="<?php echo esc_html( $department->id ); ?>" />
                         <div class="locked-indicator"></div>
 
@@ -212,7 +213,7 @@ class Department_List_Table extends \WP_List_Table {
 
                         $actions           = [];
                         $delete_url        = '';
-                        $link_to_employee  = add_query_arg( [ 'page'=>'erp-hr', 'section' => 'people', 'sub-section' => 'employee', 'filter_department' => $department->id ], admin_url( 'admin.php' ) );
+                        $link_to_employee  = add_query_arg( [ 'page' => 'erp-hr', 'section' => 'people', 'sub-section' => 'employee', 'filter_department' => $department->id ], admin_url( 'admin.php' ) );
                         $actions['edit']   = sprintf( '<a href="%s" data-id="%d" title="%s">%s</a>', $delete_url, $department->id, __( 'Edit this item', 'erp' ), __( 'Edit', 'erp' ) );
                         $actions['delete'] = sprintf( '<a href="%s" class="submitdelete" data-id="%d" title="%s">%s</a>', $delete_url, $department->id, __( 'Delete this item', 'erp' ), __( 'Delete', 'erp' ) );
 
@@ -222,12 +223,11 @@ class Department_List_Table extends \WP_List_Table {
 
                 case 'lead':
                     echo '<td>';
-
-                        if ( $new_lead = $department->get_lead() ) {
-                            echo wp_kses_post( $new_lead->get_link() );
-                        } else {
-                            echo '-';
-                        }
+                    if ( $new_lead = $department->get_lead() ) {
+                        echo wp_kses_post( $new_lead->get_link() );
+                    } else {
+                        echo '-';
+                    }
                     echo '</td>';
                     break;
 
@@ -297,7 +297,7 @@ class Department_List_Table extends \WP_List_Table {
      */
     public function prepare_items() {
         $columns               = $this->get_columns();
-        $hidden                = [ ];
+        $hidden                = [];
         $sortable              = $this->get_sortable_columns();
         $this->_column_headers = [ $columns, $hidden, $sortable ];
 

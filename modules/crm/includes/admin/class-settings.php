@@ -1,5 +1,4 @@
 <?php
-
 namespace WeDevs\ERP\CRM;
 
 use WeDevs\ERP\Framework\ERP_Settings_Page;
@@ -91,13 +90,13 @@ class CRM_Settings extends ERP_Settings_Page {
             'type'    => 'multicheck',
             'desc'    => __( 'Selected user roles are considered to auto import.', 'erp' ),
             'options' => $roles,
-            'default' => ['subscriber'], // Default roles
+            'default' => [ 'subscriber' ], // Default roles
         ];
 
         $life_stages = erp_crm_get_life_stages_dropdown_raw();
         $crm_users   = erp_crm_get_crm_user();
 
-        $users = ['' => __( '&mdash; Select Owner &mdash;', 'erp' )];
+        $users = [ '' => __( '&mdash; Select Owner &mdash;', 'erp' ) ];
 
         foreach ( $crm_users as $user ) {
             $users[ $user->ID ] = $user->display_name . ' &lt;' . $user->user_email . '&gt;';
@@ -127,7 +126,6 @@ class CRM_Settings extends ERP_Settings_Page {
         $fields['templates'][] = [
             'title' => __( 'Saved Replies', 'erp' ),
             'type'  => 'title',
-            'desc'  => __( '', 'erp' ),
             'id'    => 'general_options',
         ];
 
@@ -269,7 +267,7 @@ class CRM_Settings extends ERP_Settings_Page {
         $cron_schedules = [];
 
         foreach ( $schedules as $key => $value ) {
-            $cron_schedules[$key] = $value['display'];
+            $cron_schedules[ $key ] = $value['display'];
         }
 
         $fields[] = [
@@ -392,7 +390,7 @@ class CRM_Settings extends ERP_Settings_Page {
      * @return array
      */
     protected function get_imap_settings_fields() {
-        if ( !extension_loaded( 'imap' ) || !function_exists( 'imap_open' ) ) {
+        if ( ! extension_loaded( 'imap' ) || ! function_exists( 'imap_open' ) ) {
             $fields[] = [
                 'title' => __( 'IMAP/POP3 Options', 'erp' ),
                 'type'  => 'title',
@@ -507,7 +505,7 @@ class CRM_Settings extends ERP_Settings_Page {
             </th>
             <td class="forminp forminp-text">
                 <a id="imap-test-connection"
-                   class="button-secondary"><?php esc_attr_e( 'Test Connection', 'erp' ); ?></a>
+                    class="button-secondary"><?php esc_attr_e( 'Test Connection', 'erp' ); ?></a>
                 <span class="erp-loader" style="display: none;"></span>
                 <p class="description"><?php esc_attr_e( 'Click on the above button before saving the settings.', 'erp' ); ?></p>
             </td>
@@ -522,7 +520,8 @@ class CRM_Settings extends ERP_Settings_Page {
      */
     public function imap_status() {
         $options     = get_option( 'erp_settings_erp-crm_email_connect_imap', [] );
-        $imap_status = (bool) isset( $options['imap_status'] ) ? $options['imap_status'] : 0; ?>
+        $imap_status = (bool) isset( $options['imap_status'] ) ? $options['imap_status'] : 0;
+        ?>
         <tr valign="top">
             <th scope="row" class="titledesc">
                 <?php esc_attr_e( 'Status', 'erp' ); ?>
@@ -530,7 +529,8 @@ class CRM_Settings extends ERP_Settings_Page {
             <td class="forminp forminp-text">
                 <?php
                 $status    = ( $imap_status ) ? 'yes green' : 'no red';
-        $connected         = ( $imap_status ) ? __( 'Connected', 'erp' ) : __( 'Not Connected', 'erp' ); ?>
+                $connected = ( $imap_status ) ? __( 'Connected', 'erp' ) : __( 'Not Connected', 'erp' );
+                ?>
                 <span class="dashicons dashicons-<?php echo esc_attr( $status ); ?>"></span><?php echo esc_attr( $connected ); ?>
             </td>
         </tr>
@@ -538,7 +538,8 @@ class CRM_Settings extends ERP_Settings_Page {
     }
 
     public function gmail_api_settings() {
-        $url = wperp()->google_auth->get_client()->createAuthUrl(); ?>
+        $url = wperp()->google_auth->get_client()->createAuthUrl();
+        ?>
         <tr valign="top">
             <td class="forminp forminp-text">
                 <a target="_blank" class="button-primary" href="<?php echo esc_url_raw( $url ); ?>"><?php esc_attr_e( 'Click to Authorize your gmail account', 'erp' ); ?> </a>
@@ -548,7 +549,8 @@ class CRM_Settings extends ERP_Settings_Page {
     }
 
     public function render_gmail_redirect_url() {
-        $url = wperp()->google_auth->get_redirect_url(); ?>
+        $url = wperp()->google_auth->get_redirect_url();
+        ?>
         <tr valign="top">
             <th scope="row" class="titledesc">
                 <label for="redirect_url"><?php esc_attr_e( 'Redirect URL to use', 'erp' ); ?></label>
@@ -565,7 +567,8 @@ class CRM_Settings extends ERP_Settings_Page {
 
     public function render_gmail_api_connected() {
         $connected_email = wperp()->google_auth->is_connected();
-        $url             = wperp()->google_auth->get_disconnect_url(); ?>
+        $url             = wperp()->google_auth->get_disconnect_url();
+        ?>
         <tr valign="top">
             <th scope="row" class="titledesc">
                 <?php esc_attr_e( 'Connected', 'erp' ); ?>
@@ -601,7 +604,8 @@ class CRM_Settings extends ERP_Settings_Page {
             'actions'      => '',
         ];
 
-        $settings_url = admin_url( 'admin.php?page=erp-settings&tab=erp-crm&section=email_connect&sub_section=' ); ?>
+        $settings_url = admin_url( 'admin.php?page=erp-settings&tab=erp-crm&section=email_connect&sub_section=' );
+        ?>
         <tr valign="top">
             <td class="erp-settings-table-wrapper" colspan="2">
                 <table class="erp-settings-table widefat" cellspacing="0">
@@ -615,9 +619,10 @@ class CRM_Settings extends ERP_Settings_Page {
                             'actions'     => '',
                         ];
 
-        foreach ( $columns as $key => $item ) {
-            echo '<th class="erp-settings-table-' . esc_attr( $key ) . '">' . esc_html( $item ) . '</th>';
-        } ?>
+                        foreach ( $columns as $key => $item ) {
+                            echo '<th class="erp-settings-table-' . esc_attr( $key ) . '">' . esc_html( $item ) . '</th>';
+                        }
+                        ?>
                     </tr>
                     </thead>
                     <tbody>
@@ -657,13 +662,10 @@ class CRM_Settings extends ERP_Settings_Page {
                                         <a class="button alignright" href="' . esc_url_raw( $settings_url ) . esc_attr( strtolower( $slug ) ) . '">' . esc_html__( 'Settings', 'erp' ) . '</a>
                                     </td>';
                                     break;
-
-                                default:
-
-                                    break;
                             }
                         }
-                    } ?>
+                    }
+                    ?>
                     </tbody>
                 </table>
             </td>
@@ -672,114 +674,117 @@ class CRM_Settings extends ERP_Settings_Page {
     }
 
     public function listing_save_templates() {
-        $save_replies = erp_crm_get_save_replies(); ?>
-    <style type="text/css">
-        td.erp-crm-templates-wrapper {
-            padding: 0 15px 10px 0;;
-        }
-        table.erp-crm-templates-table th {
-            padding: 9px 7px!important;
-            vertical-align: middle;
-        }
+        $save_replies = erp_crm_get_save_replies();
+        ?>
+        <style type="text/css">
+            td.erp-crm-templates-wrapper {
+                padding: 0 15px 10px 0;;
+            }
+            table.erp-crm-templates-table th {
+                padding: 9px 7px!important;
+                vertical-align: middle;
+            }
 
-        table.erp-crm-templates-table td {
-            padding: 7px;
-            line-height: 2em;
-            vertical-align: middle;
-        }
+            table.erp-crm-templates-table td {
+                padding: 7px;
+                line-height: 2em;
+                vertical-align: middle;
+            }
 
-        table.erp-crm-templates-table th.erp-templates-settings-table-name,
-        table.erp-crm-templates-table td.erp-templates-settings-table-name {
-            padding-left: 15px !important;
-        }
+            table.erp-crm-templates-table th.erp-templates-settings-table-name,
+            table.erp-crm-templates-table td.erp-templates-settings-table-name {
+                padding-left: 15px !important;
+            }
 
-        table.erp-crm-templates-table td.erp-templates-settings-table-name a {
-            font-weight: 700;
-        }
+            table.erp-crm-templates-table td.erp-templates-settings-table-name a {
+                font-weight: 700;
+            }
 
-        table.erp-crm-templates-table td.erp-templates-settings-table-actions{
-            text-align: center;
-        }
-        table.erp-crm-templates-table td.erp-templates-settings-table-actions a{
-            margin-right: 8px;
-        }
+            table.erp-crm-templates-table td.erp-templates-settings-table-actions{
+                text-align: center;
+            }
+            table.erp-crm-templates-table td.erp-templates-settings-table-actions a{
+                margin-right: 8px;
+            }
 
-        table.erp-crm-templates-table tr:nth-child(odd) td {
-            background: #f9f9f9;
-        }
+            table.erp-crm-templates-table tr:nth-child(odd) td {
+                background: #f9f9f9;
+            }
 
-        #erp-crm-add-save-replies {
-            margin-right: 15px;
-            margin-bottom: 10px;
-        }
-    </style>
-    <a href="#" class="erp-crm-add-save-replies button alignright" id="erp-crm-add-save-replies" title="<?php esc_attr_e( 'Add new Template', 'erp' ); ?>"><?php esc_attr_e( 'Add Templates', 'erp' ); ?></a>
-    <tr valign="top">
-        <td class="erp-crm-templates-wrapper" colspan="2">
-            <table class="erp-crm-templates-table widefat" cellspacing="0">
-                <thead>
-                    <tr>
-                        <?php
+            #erp-crm-add-save-replies {
+                margin-right: 15px;
+                margin-bottom: 10px;
+            }
+        </style>
+        <a href="#" class="erp-crm-add-save-replies button alignright" id="erp-crm-add-save-replies" title="<?php esc_attr_e( 'Add new Template', 'erp' ); ?>"><?php esc_attr_e( 'Add Templates', 'erp' ); ?></a>
+        <tr valign="top">
+            <td class="erp-crm-templates-wrapper" colspan="2">
+                <table class="erp-crm-templates-table widefat" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <?php
                             $columns = apply_filters( 'erp_email_setting_columns', [
                                 'name'        => __( 'Template Name', 'erp' ),
                                 'subject'     => __( 'Subject', 'erp' ),
                                 'actions'     => '',
                             ] );
 
-        foreach ( $columns as $key => $column ) {
-            echo '<th class="erp-templates-settings-table-' . esc_attr( $key ) . '">' . esc_html( $column ) . '</th>';
-        } ?>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <?php
-                    if ( $save_replies ) {
-                        foreach ( $save_replies as $replies_key => $save_reply ) {
-                            echo '<tr>';
-
                             foreach ( $columns as $key => $column ) {
-                                switch ( $key ) {
-                                    case 'name':
-                                        echo '<td class="erp-templates-settings-table-' . esc_attr( $key ) . '">
-                                            <a href="#">' . esc_attr( $save_reply->name ) . '</a>
-                                        </td>';
-                                        break;
-
-                                    case 'subject':
-                                        $subject = ( isset( $save_reply->subject ) && ! empty( $save_reply->subject ) ) ? esc_attr( $save_reply->subject ) : '----';
-                                        echo '<td class="erp-templates-settings-table-' . esc_attr( $key ) . '">
-                                            <span class="help">' . esc_attr( $subject ) . '</span>
-                                        </td>';
-                                        break;
-
-                                    case 'actions':
-                                        echo '<td class="erp-templates-settings-table-' . esc_attr( $key ) . '">
-                                            <a class="erp-crm-save-replies-edit erp-tips" title="' . esc_html__( 'Edit', 'erp' ) . '" href="#" data-id="' . esc_attr( $save_reply->id ) . '"><i class="fa fa-pencil-square-o"></i></a>
-                                            <a class="erp-crm-delete-save-replies erp-tips" title="' . esc_html__( 'Delete', 'erp' ) . '" href="#" data-id="' . esc_attr( $save_reply->id ) . '"><i class="fa fa-trash-o"></i></a>
-                                        </td>';
-                                        break;
-
-                                    default:
-                                        if ( empty( $email ) ) {
-                                            // why?
-                                            $email = '';
-                                        }
-
-                                        do_action( 'erp_templates_setting_column_' . $key, $email );
-                                    break;
-                                }
+                                echo '<th class="erp-templates-settings-table-' . esc_attr( $key ) . '">' . esc_html( $column ) . '</th>';
                             }
-                            echo '</tr>';
+                            ?>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <?php
+                        if ( $save_replies ) {
+                            foreach ( $save_replies as $replies_key => $save_reply ) {
+                                echo '<tr>';
+
+                                foreach ( $columns as $key => $column ) {
+                                    switch ( $key ) {
+                                        case 'name':
+                                            echo '<td class="erp-templates-settings-table-' . esc_attr( $key ) . '">
+                                                <a href="#">' . esc_attr( $save_reply->name ) . '</a>
+                                            </td>';
+                                            break;
+
+                                        case 'subject':
+                                            $subject = ( isset( $save_reply->subject ) && ! empty( $save_reply->subject ) ) ? esc_attr( $save_reply->subject ) : '----';
+                                            echo '<td class="erp-templates-settings-table-' . esc_attr( $key ) . '">
+                                                <span class="help">' . esc_attr( $subject ) . '</span>
+                                            </td>';
+                                            break;
+
+                                        case 'actions':
+                                            echo '<td class="erp-templates-settings-table-' . esc_attr( $key ) . '">
+                                                <a class="erp-crm-save-replies-edit erp-tips" title="' . esc_html__( 'Edit', 'erp' ) . '" href="#" data-id="' . esc_attr( $save_reply->id ) . '"><i class="fa fa-pencil-square-o"></i></a>
+                                                <a class="erp-crm-delete-save-replies erp-tips" title="' . esc_html__( 'Delete', 'erp' ) . '" href="#" data-id="' . esc_attr( $save_reply->id ) . '"><i class="fa fa-trash-o"></i></a>
+                                            </td>';
+                                            break;
+
+                                        default:
+                                            if ( empty( $email ) ) {
+                                                // why?
+                                                $email = '';
+                                            }
+
+                                            do_action( 'erp_templates_setting_column_' . $key, $email );
+                                            break;
+                                    }
+                                }
+                                echo '</tr>';
+                            }
+                        } else {
+                            echo '<tr><td colspan="3">' . esc_html__( 'No templates found', 'erp' ) . '</td></tr>';
                         }
-                    } else {
-                        echo '<tr><td colspan="3">' . esc_html__( 'No templates found', 'erp' ) . '</td></tr>';
-                    } ?>
-                </tbody>
-            </table>
-        </td>
-    </tr>
-    <?php
+                        ?>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <?php
     }
 
     /**
@@ -799,7 +804,7 @@ class CRM_Settings extends ERP_Settings_Page {
                 break;
 
             case 'imap':
-                if ( isset( $options['enable_imap'] ) && $options['enable_imap'] == 'yes' ) {
+                if ( isset( $options['enable_imap'] ) && $options['enable_imap'] === 'yes' ) {
                     wperp()->google_auth->clear_account_data();
                 }
                 break;
@@ -814,7 +819,7 @@ class CRM_Settings extends ERP_Settings_Page {
      * @since 1.3.14
      */
     public function output( $section = false ) {
-        if ( !isset( $_GET['sub_section'] ) ) {
+        if ( ! isset( $_GET['sub_section'] ) ) {
             parent::output( $section );
 
             return;
@@ -862,18 +867,18 @@ class CRM_Settings extends ERP_Settings_Page {
             // saving individual email settings
             if ( $current_section ) {
                 $settings       = $this->get_sub_section_fields();
-                $update_options = get_option(  $this->get_option_id(), [] );
+                $update_options = get_option( $this->get_option_id(), [] );
 
                 if ( $settings ) {
                     foreach ( $settings as $field ) {
-                        if ( !isset( $field['id'] ) || !isset( $_POST[$field['id']] ) ) {
+                        if ( ! isset( $field['id'] ) || ! isset( $_POST[$field['id']] ) ) {
                             continue;
                         }
 
                         $option_value = $this->parse_option_value( $field );
 
-                        if ( !is_null( $option_value ) ) {
-                            $update_options[$field['id']] = $option_value;
+                        if ( ! is_null( $option_value ) ) {
+                            $update_options[ $field['id'] ] = $option_value;
                         }
                     }
                 }
@@ -896,11 +901,11 @@ class CRM_Settings extends ERP_Settings_Page {
             // die();
         }
 
-        if ( !isset( $_GET['section'] ) || ( $_GET['section'] != 'email_connect' ) ) {
+        if ( ! isset( $_GET['section'] ) || ( $_GET['section'] !== 'email_connect' ) ) {
             return;
         }
 
-        if ( !isset( $value['id'] ) || ( $value['id'] != 'schedule' ) ) {
+        if ( ! isset( $value['id'] ) || ( $value['id'] !== 'schedule' ) ) {
             return;
         }
 

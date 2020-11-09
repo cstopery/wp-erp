@@ -1,6 +1,6 @@
 <?php
-    $contacts_count  = erp_crm_customer_get_status_count( 'contact' );
-    $companies_count = erp_crm_customer_get_status_count( 'company' );
+$contacts_count  = erp_crm_customer_get_status_count( 'contact' );
+$companies_count = erp_crm_customer_get_status_count( 'company' );
 ?>
 
 <div class="erp-badge-box box-crm">
@@ -20,23 +20,22 @@
                 <ul class="erp-info-box-list">
                     <?php
                     foreach ( $contacts_count as $contact_key => $contact_value ) {
-                        if ( $contact_key == 'all' || $contact_key == 'trash' ) {
+                        if ( $contact_key === 'all' || $contact_key === 'trash' ) {
                             continue;
-                        } ?>
+                        }
+                    ?>
                         <li>
-                            <a href="<?php echo esc_url_raw( add_query_arg( [ 'page' => 'erp-crm', 'section' => 'contacts', 'status' => $contact_key ], admin_url( 'admin.php' ) ) ); ?>">
+                            <a href="<?php echo esc_url_raw( add_query_arg( [ 'page' => 'erp-crm', 'section' => 'contact', 'sub-section' => 'contacts', 'status' => $contact_key ], admin_url( 'admin.php' ) ) ); ?>">
                                 <?php
-                                    $singular = $contact_value['label'];
-                        $plural               = erp_pluralize( $singular );
+                                $singular = $contact_value['label'];
+                                $plural   = erp_pluralize( $singular );
+                                $plural   = apply_filters( "erp_crm_life_stage_plural_of_{$contact_key}", $plural, $singular );
 
-                        $plural = apply_filters( "erp_crm_life_stage_plural_of_{$contact_key}", $plural, $singular );
-
-                        echo wp_kses_post( sprintf( _n( "<span>{$singular}</span> <span>%s</span>", "<span>{$plural}</span> <span>%s</span>", $contact_value['count'], 'erp' ), number_format_i18n( $contact_value['count'] ), 0 ) ); ?>
+                                echo wp_kses_post( sprintf( _n( "<span>{$singular}</span> <span>%s</span>", "<span>{$plural}</span> <span>%s</span>", $contact_value['count'], 'erp' ), number_format_i18n( $contact_value['count'] ), 0 ) );
+                                ?>
                             </a>
                         </li>
-                        <?php
-                    }
-                    ?>
+                    <?php } ?>
                 </ul>
             </div>
 
@@ -56,23 +55,21 @@
                 <ul class="erp-info-box-list">
                     <?php
                     foreach ( $companies_count as $company_key => $company_value ) {
-                        if ( $company_key == 'all' || $company_key == 'trash' ) {
+                        if ( $company_key === 'all' || $company_key === 'trash' ) {
                             continue;
                         } ?>
                         <li>
                             <a href="<?php echo esc_url_raw( add_query_arg( [ 'page' => 'erp-crm', 'section' => 'contact', 'sub-section' => 'companies', 'status' => $company_key ], admin_url( 'admin.php' ) ) ); ?>">
                                 <?php
-                                    $singular = $company_value['label'];
-                        $plural               = erp_pluralize( $singular );
+                                $singular = $company_value['label'];
+                                $plural   = erp_pluralize( $singular );
+                                $plural   = apply_filters( "erp_crm_life_stage_plural_of_{$company_key}", $plural, $singular );
 
-                        $plural = apply_filters( "erp_crm_life_stage_plural_of_{$company_key}", $plural, $singular );
-
-                        echo wp_kses_post( sprintf( _n( "<span>{$singular}</span> <span>%s</span>", "<span>{$plural}</span> <span>%s</span>", $company_value['count'], 'erp' ), number_format_i18n( $company_value['count'] ), 0 ) ); ?>
+                                echo wp_kses_post( sprintf( _n( "<span>{$singular}</span> <span>%s</span>", "<span>{$plural}</span> <span>%s</span>", $company_value['count'], 'erp' ), number_format_i18n( $company_value['count'] ), 0 ) );
+                                ?>
                             </a>
                         </li>
-                        <?php
-                    }
-                    ?>
+                    <?php } ?>
                 </ul>
             </div>
 

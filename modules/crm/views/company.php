@@ -1,5 +1,5 @@
 <?php
-if ( isset( $_GET['filter_assign_contact' ] ) && !empty( $_GET['filter_assign_contact' ] ) ) {
+if ( isset( $_GET['filter_assign_contact'] ) && ! empty( $_GET['filter_assign_contact'] ) ) {
     $id = intval( $_GET['filter_assign_contact'] );
 
     $custom_data = [

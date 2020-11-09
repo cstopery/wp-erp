@@ -133,7 +133,7 @@ function erp_crm_get_crm_user_html_dropdown( $selected = '' ) {
 
     if ( $crm_users ) {
         foreach ( $crm_users as $key => $user ) {
-            if ( $user->ID == get_current_user_id() ) {
+            if ( (int) $user->ID === get_current_user_id() ) {
                 $title = sprintf( '%s ( %s )', __( 'Me', 'erp' ), $user->display_name );
             } else {
                 $title = $user->display_name;
@@ -663,7 +663,16 @@ function erp_crm_get_feed_activity( $postdata ) {
 
     if ( current_user_can( 'erp_crm_agent' ) ) {
         $contact_owner = get_current_user_id();
-        $people_ids    = array_keys( $wpdb->get_results( "SELECT id FROM {$wpdb->prefix}erp_peoples WHERE contact_owner = {$contact_owner}", OBJECT_K ) );
+        $people_ids    = array_keys(
+            $wpdb->get_results(
+                $wpdb->prepare(
+                    'SELECT id FROM %s WHERE contact_owner = %d',
+                    $wpdb->prefix . 'erp_peoples',
+                    $contact_owner;
+                ),
+                OBJECT_K
+            )
+        );
 
         $results = $results->whereIn( 'user_id', $people_ids );
     }
@@ -2467,7 +2476,7 @@ function erp_crm_save_email_activity( $email, $inbound_email_address ) {
         ];
 
         $reply_to = $inbound_email_address;
-        $headers .= "Reply-To: WP ERP <$reply_to>" . "\r\n";
+        $headers .= "Reply-To: WP ERP <$reply_to>\r\n";
 
         $mail_attachments = [];
 
@@ -2533,7 +2542,7 @@ function erp_crm_save_contact_owner_email_activity( $email, $inbound_email_addre
     ];
 
     $reply_to = $inbound_email_address;
-    $headers .= "Reply-To: WP ERP <$reply_to>" . "\r\n";
+    $headers .= "Reply-To: WP ERP <$reply_to>\r\n";
 
     $owner      = $contact->get_contact_owner();
     $owner_info = get_userdata( $owner );
@@ -2883,8 +2892,7 @@ function erp_crm_activity_assign_dropdown_html( $contact_id, $selected = '' ) {
         if ( $crm_users ) {
             foreach ( $crm_users as $key => $user ) {
                 if ( 'erp_crm_manager' === erp_crm_get_user_role( $user->ID ) || $user->ID === intval( $contact->contact_owner ) ) {
-
-                    if ( $user->ID == get_current_user_id() ) {
+                    if ( $user->ID === get_current_user_id() ) {
                         $title = sprintf( '%s ( %s )', __( 'Me', 'erp' ), $user->display_name );
                     } else {
                         $title = $user->display_name;
@@ -2897,7 +2905,7 @@ function erp_crm_activity_assign_dropdown_html( $contact_id, $selected = '' ) {
     } else {
         $curr_user = wp_get_current_user();
 
-        if( intval( $curr_user->ID ) === intval( $contact->contact_owner ) ) {
+        if ( intval( $curr_user->ID ) === intval( $contact->contact_owner ) ) {
             $title = sprintf( '%s ( %s )', __( 'Me', 'erp' ), $curr_user->display_name );
             $dropdown .= sprintf( "<option value='%s'%s>%s</option>", $curr_user->ID, 'selected', $title );
         }
@@ -4022,7 +4030,15 @@ function erp_crm_check_company_contact_relations( $id, $id_type ) {
             if ( $id_type === 'contact' ) {
                 $id_type = 'customer';
             }
-            $rel_count = $wpdb->get_var( "SELECT count(*) FROM {$wpdb->prefix}erp_crm_customer_companies WHERE {$id_type}_id = {$id}" );
+
+            $rel_count = $wpdb->get_var(
+                $wpdb->prepare(
+                    'SELECT count(*) FROM %s WHERE %s = %d',
+                    $wpdb->prefix . 'erp_crm_customer_companies',
+                    $id_type . '_id',
+                    $id
+                )
+            );
 
             return $rel_count;
         }
@@ -4061,7 +4077,7 @@ function erp_crm_get_contacts_menu_dropdown_html( $selected = 'contacts' ) {
                 <?php if ( 'life-stages' === $key ) : ?>
                 <li><a href="<?php echo add_query_arg( array( 'section' => $key ), admin_url( 'admin.php?page=erp-settings&tab=erp-crm' ) ); ?>" class="" data-key="<?php echo $key; ?>"><?php echo $value; ?></a></li>
                 <?php else : ?>
-                <li><a href="<?php echo add_query_arg( array( 'sub-section' => $key ), admin_url( "admin.php?page=erp-crm&section=contact" ) ); ?>" class="" data-key="<?php echo $key; ?>"><?php echo $value; ?></a></li>
+                <li><a href="<?php echo add_query_arg( array( 'sub-section' => $key ), admin_url( 'admin.php?page=erp-crm&section=contact' ) ); ?>" class="" data-key="<?php echo $key; ?>"><?php echo $value; ?></a></li>
                 <?php endif; ?>
             <?php endforeach; ?>
         </ul>
@@ -4095,7 +4111,7 @@ function erp_crm_get_tasks_menu_dropdown_html( $selected = '' ) {
         </div>
         <ul class="erp-options">
             <?php foreach ( $dropdown as $key => $value ) : ?>
-            <li><a href="<?php echo add_query_arg( array( 'sub-section' => $key ), admin_url( "admin.php?page=erp-crm&section=task" ) ); ?>" class="" data-key="<?php echo $key; ?>"><?php echo $value; ?></a></li>
+            <li><a href="<?php echo add_query_arg( array( 'sub-section' => $key ), admin_url( 'admin.php?page=erp-crm&section=task' ) ); ?>" class="" data-key="<?php echo $key; ?>"><?php echo $value; ?></a></li>
             <?php endforeach; ?>
         </ul>
     </div>

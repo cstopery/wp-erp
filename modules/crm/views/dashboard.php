@@ -1,6 +1,6 @@
 <?php
-    $contacts_count  = erp_crm_customer_get_status_count( 'contact' );
-    $companies_count = erp_crm_customer_get_status_count( 'company' );
+$contacts_count  = erp_crm_customer_get_status_count( 'contact' );
+$companies_count = erp_crm_customer_get_status_count( 'company' );
 ?>
 <div class="wrap erp crm-dashboard">
     <h2><?php esc_attr_e( 'CRM Dashboard', 'erp' ); ?></h2>
@@ -22,10 +22,10 @@
                                     <ul class="erp-info-box-list">
                                         <?php
                                         foreach ( $contacts_count as $contact_key => $contact_value ) {
-                                            if ( $contact_key == 'all' || $contact_key == 'trash' ) {
+                                            if ( $contact_key === 'all' || $contact_key === 'trash' ) {
                                                 continue;
                                             }
-                                            $contact_url = add_query_arg( [ 'page' => 'erp-crm', 'section' => 'contacts', 'status' => $contact_key ], admin_url( 'admin.php' ) ); ?>
+                                            $contact_url = add_query_arg( [ 'page' => 'erp-crm', 'section' => 'contact', 'sub-section' => 'contacts', 'status' => $contact_key ], admin_url( 'admin.php' ) ); ?>
                                             <li>
                                                 <a href="<?php echo esc_url_raw( $contact_url ); ?>">
                                                     <i class="fa fa-square" aria-hidden="true"></i>&nbsp;
@@ -58,14 +58,17 @@
                                     <ul class="erp-info-box-list">
                                         <?php
                                         foreach ( $companies_count as $company_key => $company_value ) {
-                                            if ( $company_key == 'all' || $company_key == 'trash' ) {
+                                            if ( $company_key === 'all' || $company_key === 'trash' ) {
                                                 continue;
                                             }
-                                            $company_url = add_query_arg( [ 'page'      => 'erp-crm',
-                                                                              'section' => 'contact',
-                                                                              'sub-section' => 'companies',
-                                                                              'status'  => $company_key,
-                                            ], admin_url( 'admin.php' ) ); ?>
+
+                                            $company_url = add_query_arg( [
+                                                'page'        => 'erp-crm',
+                                                'section'     => 'contact',
+                                                'sub-section' => 'companies',
+                                                'status'      => $company_key,
+                                            ], admin_url( 'admin.php' ) );
+                                        ?>
                                             <li>
                                                 <a href="<?php echo esc_url_raw( $company_url ); ?>">
                                                     <i class="fa fa-square" aria-hidden="true"></i>&nbsp;
@@ -81,7 +84,7 @@
                         </div>
                         <?php $companies_url = add_query_arg( [ 'page' => 'erp-crm', 'section' => 'contact', 'sub-section' => 'companies' ], admin_url( 'admin.php' ) ); ?>
                         <div class="erp-info-box-footer">
-                            <a href="<?php echo  esc_url_raw( $companies_url ); ?>"><?php esc_attr_e( 'View all Companies', 'erp' ); ?></a>
+                            <a href="<?php echo esc_url_raw( $companies_url ); ?>"><?php esc_attr_e( 'View all Companies', 'erp' ); ?></a>
                         </div>
                     </div>
                 </div>

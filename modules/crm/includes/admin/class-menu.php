@@ -1,5 +1,4 @@
 <?php
-
 namespace WeDevs\ERP\CRM;
 
 /**
@@ -49,22 +48,6 @@ class Admin_Menu {
             'position'   => 5,
         ] );
 
-        // erp_add_menu( 'crm', [
-        //     'title'      => __( 'Companies', 'erp' ),
-        //     'capability' => 'erp_crm_list_contact',
-        //     'slug'       => 'companies',
-        //     'callback'   => [ $this, 'company_page' ],
-        //     'position'   => 10,
-        // ] );
-
-        // erp_add_menu( 'crm', [
-        //     'title'      => __( 'Activities', 'erp' ),
-        //     'capability' => 'erp_crm_manage_activites',
-        //     'slug'       => 'activities',
-        //     'callback'   => [ $this, 'activity_page' ],
-        //     'position'   => 15,
-        // ] );
-
         erp_add_menu( 'crm', [
             'title'      => __( 'Tasks', 'erp' ),
             'capability' => 'erp_crm_manage_schedules',
@@ -72,14 +55,6 @@ class Admin_Menu {
             'callback'   => [ $this, 'tasks_page' ],
             'position'   => 20,
         ] );
-
-        // erp_add_menu( 'crm', [
-        //     'title'      => __( 'Contact Groups', 'erp' ),
-        //     'capability' => 'erp_crm_manage_groups',
-        //     'slug'       => 'contact-groups',
-        //     'callback'   => [ $this, 'contact_group_page' ],
-        //     'position'   => 25,
-        // ] );
 
         erp_add_menu( 'crm', [
             'title'      => __( 'Reports', 'erp' ),
@@ -114,26 +89,12 @@ class Admin_Menu {
         ] );
 
         erp_add_menu( 'crm', [
-            'title'      => __( '<span class="erp-help">Help</span>', 'erp' ),
+            'title'      => sprintf( '<span class="erp-help">%s</span>', __( 'Help', 'erp' ) ),
             'capability' => 'erp_crm_manage_dashboard',
             'slug'       => 'help',
             'callback'   => [ $this, 'help_page' ],
             'position'   => 100,
         ] );
-
-//        $overview = add_submenu_page( 'erp-sales', __( 'Overview', 'erp' ), __( 'Overview', 'erp' ), 'erp_crm_manage_dashboard', 'erp-sales', [ $this, 'dashboard_page' ] );
-//        add_submenu_page( 'erp-sales', __( 'Contacts', 'erp' ), __( 'Contacts', 'erp' ), 'erp_crm_list_contact', 'erp-sales-customers', [ $this, 'contact_page' ] );
-//        add_submenu_page( 'erp-sales', __( 'Companies', 'erp' ), __( 'Companies', 'erp' ), 'erp_crm_list_contact', 'erp-sales-companies', [ $this, 'company_page' ] );
-//        add_submenu_page( 'erp-sales', __( 'Activities', 'erp' ), __( 'Activities', 'erp' ), 'erp_crm_manage_activites', 'erp-sales-activities', [ $this, 'activity_page' ] );
-//        $schedule = add_submenu_page( 'erp-crm', __( 'Schedules', 'erp' ), __( 'Schedules', 'erp' ), 'erp_crm_manage_schedules', 'erp-sales-schedules', [ $this, 'schedules_page' ] );
-//        add_submenu_page( 'erp-sales', __( 'Contact Groups', 'erp' ), __( 'Contact Groups', 'erp' ), 'erp_crm_manage_groups', 'erp-sales-contact-groups', [ $this, 'contact_group_page' ] );
-//        add_submenu_page( 'erp-sales', __( 'Reports', 'erp' ), __( 'Reports', 'erp' ), 'erp_crm_manage_dashboard', 'erp-sales-reports', array( $this, 'page_reports' ) );
-//
-//        //Help page
-//        add_submenu_page( 'erp-sales', __( 'Help', 'erp' ), __( '<span style="color:#f18500">Help</span>', 'erp' ), 'erp_crm_manage_dashboard', 'erp-crm-help', array( $this, 'help_page' ) );
-//
-//        add_action( 'admin_print_styles-' . $overview, array( $this, 'crm_calendar_script' ) );
-//        add_action( 'admin_print_styles-' . $schedule, array( $this, 'crm_calendar_script' ) );
     }
 
     /**
@@ -159,15 +120,15 @@ class Admin_Menu {
     public function router() {
         $component = 'crm';
         $menu      = erp_menu();
-        $menu      = $menu[$component];
+        $menu      = $menu[ $component ];
 
-        $section = ( isset( $_GET['section'] ) && isset( $menu[$_GET['section']] ) ) ? sanitize_text_field( wp_unslash( $_GET['section'] ) ) : 'dashboard';
-        $sub     = ( isset( $_GET['sub-section'] ) && !empty( $menu[$section]['submenu'][$_GET['sub-section']] ) ) ? sanitize_text_field( wp_unslash( $_GET['sub-section'] ) ) : false;
+        $section = ( isset( $_GET['section'] ) && isset( $menu[ $_GET['section'] ] ) ) ? sanitize_text_field( wp_unslash( $_GET['section'] ) ) : 'dashboard';
+        $sub     = ( isset( $_GET['sub-section'] ) && ! empty( $menu[ $section ]['submenu'][ $_GET['sub-section'] ] ) ) ? sanitize_text_field( wp_unslash( $_GET['sub-section'] ) ) : false;
 
-        $callback = $menu[$section]['callback'];
+        $callback = $menu[ $section ]['callback'];
 
         if ( $sub ) {
-            $callback = $menu[$section]['submenu'][$sub]['callback'];
+            $callback = $menu[ $section ]['submenu'][ $sub ]['callback'];
         }
 
         erp_render_menu( $component );
@@ -219,8 +180,8 @@ class Admin_Menu {
     public function contact_page() {
         $action = isset( $_GET['action'] ) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : 'list';
         $id     = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0;
-        switch ( $action ) {
 
+        switch ( $action ) {
             case 'view':
                 $customer = new Contact( $id );
 
@@ -255,7 +216,6 @@ class Admin_Menu {
         $id     = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0;
 
         switch ( $action ) {
-
             case 'view':
                 $customer = new Contact( $id );
 
@@ -287,10 +247,9 @@ class Admin_Menu {
      */
     public function leads_page() {
         $action = isset( $_GET['action'] ) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : 'list';
-        $id     = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0;
+        $id     = isset( $_GET['id'] ) ? intval( wp_unslash( $_GET['id'] ) ) : 0;
 
         switch ( $action ) {
-
             case 'view':
                 $template = WPERP_CRM_VIEWS . '/leads/single.php';
                 break;
@@ -371,7 +330,6 @@ class Admin_Menu {
         $id     = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0;
 
         switch ( $action ) {
-
             case 'view-subscriber':
                 $template = WPERP_CRM_VIEWS . '/contact-group/subscribe-contact.php';
                 break;
@@ -404,7 +362,6 @@ class Admin_Menu {
         $id     = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0;
 
         switch ( $action ) {
-
             case 'view-subscriber':
                 $template = WPERP_CRM_VIEWS . '/contact-group/subscribe-contact.php';
                 break;
@@ -439,7 +396,7 @@ class Admin_Menu {
                 $template = WPERP_CRM_VIEWS . '/reports/customer-report.php';
                 break;
 
-                case 'activity-report':
+            case 'activity-report':
                 $template = WPERP_CRM_VIEWS . '/reports/activity-report.php';
                 break;
 

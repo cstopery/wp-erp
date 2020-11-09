@@ -124,8 +124,8 @@ class ERP_Settings_Contact_Forms {
         }
 
         $keys        = array_keys( $plugins );
-        $cur_section = isset( $_GET['section'] ) ? sanitize_text_field( wp_unslash( $_GET['section'] ) )        : '';
-        $sub_section = isset( $_GET['sub-section'] ) ? sanitize_text_field( wp_unslash( $_GET['sub-section'] ) ): $keys[0];
+        $cur_section = isset( $_GET['section'] ) ? sanitize_text_field( wp_unslash( $_GET['section'] ) ) : '';
+        $sub_section = isset( $_GET['sub-section'] ) ? sanitize_text_field( wp_unslash( $_GET['sub-section'] ) ) : $keys[0];
         $forms       = $this->forms[ $sub_section ];
 
         if ( 'contact_forms' === $cur_section ) {
@@ -206,7 +206,7 @@ class ERP_Settings_Contact_Forms {
                     <tbody>
                         <tr>
                             <th class="cfi-table-wide-column"><?php esc_html_e( 'Form Field', 'erp' ); ?></th>
-                            <th class="cfi-table-wide-column"><?php esc_html_e( 'CRM Contact Option' ); ?></th>
+                            <th class="cfi-table-wide-column"><?php esc_html_e( 'CRM Contact Option', 'erp' ); ?></th>
                             <th class="cfi-table-narrow-column">&nbsp;</th>
                         </tr>
                     </tbody>
@@ -293,7 +293,7 @@ class ERP_Settings_Contact_Forms {
             </td>
             <td></td>
         </tr>
-    <?php
+        <?php
     }
 
     /**
@@ -311,19 +311,19 @@ class ERP_Settings_Contact_Forms {
             $this->send_error( __( 'Error: Nonce verification failed', 'erp' ) );
         }
 
-        if ( !erp_crm_is_current_user_manager() ) {
+        if ( ! erp_crm_is_current_user_manager() ) {
             $response['msg'] = __( 'Unauthorized operation', 'erp' );
         }
 
-        if ( !empty( $_POST['plugin'] ) && !empty( $_POST['formId'] ) && !empty( $_POST['map'] ) ) {
+        if ( ! empty( $_POST['plugin'] ) && ! empty( $_POST['formId'] ) && ! empty( $_POST['map'] ) ) {
             $required_options = $this->get_required_crm_contact_options();
 
             // if map contains full_name, then remove first and last names from required options
-            if ( in_array( 'full_name', $_POST['map'] ) ) {
+            if ( in_array( 'full_name', $_POST['map'], true ) ) {
                 $index = array_search( 'first_name', $required_options );
                 unset( $required_options[ $index ] );
 
-                $index = array_search( 'last_name', $required_options );
+                $index = array_search( 'last_name', $required_options, true );
                 unset( $required_options[ $index ] );
 
                 array_unshift( $required_options, 'full_name' );
@@ -331,7 +331,7 @@ class ERP_Settings_Contact_Forms {
 
             $diff = array_diff( $required_options, array_map( 'sanitize_text_field', wp_unslash( $_POST['map'] ) ) );
 
-            if ( !empty( $diff ) ) {
+            if ( ! empty( $diff ) ) {
                 $required_options = array_map( function ( $option ) {
                     return ucwords( str_replace( '_', ' ', $option ) );
                 }, $required_options );
@@ -380,12 +380,12 @@ class ERP_Settings_Contact_Forms {
             $this->send_error( __( 'Error: Nonce verification failed', 'erp' ) );
         }
 
-        if ( !erp_crm_is_current_user_manager() ) {
+        if ( ! erp_crm_is_current_user_manager() ) {
             $response['msg'] = __( 'Unauthorized operation', 'erp' );
-        } elseif ( !empty( $_POST['plugin'] ) && !empty( $_POST['formId'] ) ) {
+        } elseif ( ! empty( $_POST['plugin'] ) && !empty( $_POST['formId'] ) ) {
             $settings = get_option( 'wperp_crm_contact_forms' );
 
-            if ( !empty( $settings[ $_POST['plugin'] ][ $_POST['formId'] ] ) ) {
+            if ( ! empty( $settings[ $_POST['plugin'] ][ $_POST['formId'] ] ) ) {
                 $map = $settings[ sanitize_text_field( wp_unslash( $_POST['plugin'] ) ) ][ sanitize_text_field( wp_unslash( $_POST['formId'] ) ) ]['map'];
 
                 unset( $settings[ $_POST['plugin'] ][ $_POST['formId'] ] );

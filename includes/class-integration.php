@@ -1,5 +1,4 @@
 <?php
-
 namespace WeDevs\ERP;
 
 use WeDevs\ERP\Framework\ERP_Settings_Page;
@@ -137,11 +136,12 @@ class Integration extends ERP_Settings_Page {
 
         <?php
             /**
-             * erp_email_settings_before action hook.
+             * Erp_email_settings_before action hook.
              *
              * @param string $integration The integration object
              */
-            do_action( 'erp_integration_settings_before', $this ); ?>
+            do_action( 'erp_integration_settings_before', $this );
+        ?>
 
         <table class="form-table">
             <?php $this->generate_settings_html(); ?>
@@ -149,11 +149,12 @@ class Integration extends ERP_Settings_Page {
 
         <?php
             /**
-             * erp_integration_settings_after action hook.
+             * Erp_integration_settings_after action hook.
              *
              * @param string $integration The integration object
              */
-            do_action( 'erp_integration_settings_after', $this ); ?>
+            do_action( 'erp_integration_settings_after', $this );
+        ?>
         <?php
     }
 }

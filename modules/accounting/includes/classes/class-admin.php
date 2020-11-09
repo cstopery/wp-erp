@@ -137,18 +137,26 @@ class Admin {
         );
 
         if ( function_exists( 'wp_erp_pro' ) && wp_erp_pro()->module->is_active( 'reimbursement' ) ) {
-            erp_add_submenu( 'accounting', 'transactions', [
-                'title'      => __( 'Reimbursement', 'erp-pro' ),
-                'capability' => 'erp_ac_view_sale',
-                'slug'       => 'transactions/reimbursements',
-                'position'   => 30
-            ] );
-            erp_add_submenu( 'accounting', 'transactions', [
-                'title'      => __( 'Requests', 'erp-pro' ),
-                'capability' => 'erp_ac_manager',
-                'slug'       => 'transactions/reimbursements/requests',
-                'position'   => 35
-            ] );
+            erp_add_submenu(
+                'accounting',
+                'transactions',
+                [
+                    'title'      => __( 'Reimbursement', 'erp' ),
+                    'capability' => 'erp_ac_view_sale',
+                    'slug'       => 'transactions/reimbursements',
+                    'position'   => 30
+                ]
+            );
+            erp_add_submenu(
+                'accounting',
+                'transactions',
+                [
+                    'title'      => __( 'Requests', 'erp' ),
+                    'capability' => 'erp_ac_manager',
+                    'slug'       => 'transactions/reimbursements/requests',
+                    'position'   => 35
+                ]
+            );
         }
 
         erp_add_menu(
@@ -180,16 +188,6 @@ class Admin {
                 'position'   => 10,
             ]
         );
-        // erp_add_submenu(
-        //     'accounting',
-        //     'settings',
-        //     [
-        //         'title'      => __( 'Tax', 'erp' ),
-        //         'capability' => 'erp_ac_view_sale',
-        //         'slug'       => 'taxes',
-        //         'position'   => 15,
-        //     ]
-        // );
         erp_add_submenu(
             'accounting',
             'settings',
@@ -210,24 +208,6 @@ class Admin {
                 'position'   => 20,
             ]
         );
-        // erp_add_menu(
-        //     'accounting',
-        //     [
-        //         'title'      => __( 'Chart of Accounts', 'erp' ),
-        //         'capability' => $account_charts,
-        //         'slug'       => 'charts',
-        //         'position'   => 30,
-        //     ]
-        // );
-        // erp_add_menu(
-        //     'accounting',
-        //     [
-        //         'title'      => __( 'Bank Accounts', 'erp' ),
-        //         'capability' => $bank,
-        //         'slug'       => 'banks',
-        //         'position'   => 35,
-        //     ]
-        // );
         erp_add_menu(
             'accounting',
             [
@@ -263,42 +243,13 @@ class Admin {
                 'accounting',
                 'products',
                 [
-                    'title'      => __( 'Inventory', 'erp-pro' ),
+                    'title'      => __( 'Inventory', 'erp' ),
                     'capability' => 'erp_ac_view_sale',
                     'slug'       => 'products/inventory',
                     'position'   => 15,
                 ]
             );
         }
-        // erp_add_menu(
-        //     'accounting',
-        //     [
-        //         'title'      => __( 'Tax', 'erp' ),
-        //         'capability' => 'erp_ac_view_sale',
-        //         'slug'       => 'taxes',
-        //         'position'   => 45,
-        //     ]
-        // );
-        // erp_add_submenu(
-        //     'accounting',
-        //     'taxes',
-        //     [
-        //         'title'      => __( 'Tax Rates', 'erp' ),
-        //         'capability' => $sale,
-        //         'slug'       => 'taxes/tax-rates',
-        //         'position'   => 5,
-        //     ]
-        // );
-        // erp_add_submenu(
-        //     'accounting',
-        //     'taxes',
-        //     [
-        //         'title'      => __( 'Tax Payments', 'erp' ),
-        //         'capability' => $sale,
-        //         'slug'       => 'taxes/tax-records',
-        //         'position'   => 10,
-        //     ]
-        // );
         erp_add_menu(
             'accounting',
             [
@@ -414,9 +365,7 @@ class Admin {
     public function erp_accounting_page() {
         ?>
         <script>
-            window.erpAcct = JSON.parse('<?php echo wp_kses_post( wp_slash(
-                json_encode( apply_filters( 'erp_localized_data', [] ) )
-            ) ); ?>');
+            window.erpAcct = JSON.parse('<?php echo wp_kses_post( wp_slash( json_encode( apply_filters( 'erp_localized_data', [] ) ) ) ); ?>');
         </script>
         <?php
         echo '<div class="wrap"><div id="erp-accounting"></div></div>';
@@ -526,10 +475,10 @@ class Admin {
                     'name'       => $fin_years['ob_names'][ $i ],
                     'start_date' => $fin_years['ob_starts'][ $i ],
                     'end_date'   => $fin_years['ob_ends'][ $i ],
-                    'created_at' => date( 'Y-m-d' ),
+                    'created_at' => gmdate( 'Y-m-d' ),
                     'created_by' => $created_by,
                 ],
-                ['%s', '%s', '%s', '%s', '%d']
+                [ '%s', '%s', '%s', '%s', '%d' ]
             );
         }
     }
@@ -556,7 +505,7 @@ class Admin {
             'type'  => 'checkbox',
             'tag'   => 'div',
             'value' => $is_manager,
-            'help'  => esc_html__( 'This Employee is Accounting Manager', 'erp'  ),
+            'help'  => esc_html__( 'This Employee is Accounting Manager', 'erp' ),
         ] );
     }
 

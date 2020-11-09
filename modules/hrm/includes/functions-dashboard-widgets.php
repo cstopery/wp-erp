@@ -36,25 +36,22 @@ function erp_hr_dashboard_widget_birthday() {
 
         <ul class="erp-list list-inline">
             <?php
-
             foreach ( $todays_birthday as $user ) {
-                $employee = new \WeDevs\ERP\HRM\Employee( intval( $user->user_id ) ); ?>
+                $employee = new \WeDevs\ERP\HRM\Employee( intval( $user->user_id ) );
+            ?>
                 <li>
                     <a href="<?php echo esc_url( $employee->get_details_url() ); ?>" class="erp-tips" title="<?php echo esc_attr( $employee->get_full_name() ); ?>">
                     <?php echo wp_kses_post( $employee->get_avatar( 32 ) ); ?></a> &nbsp;
-                    <?php if ( !isset( $_COOKIE[ $employee->get_user_id() ] ) ) { ?>
+                    <?php if ( ! isset( $_COOKIE[ $employee->get_user_id() ] ) ) { ?>
                         <!-- <a href="#" title="Send birthday wish email to <?php /*echo $employee->get_full_name();*/ ?>"
                             class="send-wish" data-user_id="<?php /*echo intval( $employee->get_user_id() );*/ ?>">
                             <i class="fa fa-envelope-o" aria-hidden="true"></i>
                         </a> -->
                     <?php } ?>
                 </li>
-            <?php
-            } ?>
+            <?php } ?>
         </ul>
-
-        <?php
-    } ?>
+    <?php } ?>
 
     <?php if ( $upcoming_birtday ) { ?>
 
@@ -63,7 +60,6 @@ function erp_hr_dashboard_widget_birthday() {
         <ul class="erp-list list-two-side list-sep">
 
             <?php foreach ( $upcoming_birtday as $key => $user ) { ?>
-
                 <?php $employee = new \WeDevs\ERP\HRM\Employee( intval( $user->user_id ) ); ?>
 
                 <li>
@@ -79,7 +75,9 @@ function erp_hr_dashboard_widget_birthday() {
 
     if ( ! $todays_birthday && ! $upcoming_birtday ) {
         esc_html_e( 'No one has birthdays this week!', 'erp' );
-    } ?>
+    }
+
+    ?>
     <style>
         span.wait {
             display: none;
@@ -101,10 +99,10 @@ function erp_hr_dashboard_widget_birthday() {
  * @return void
  */
 function erp_hr_dashboard_widget_about_to_end() {
-    $c_t_employees  = erp_hr_get_contractual_employee();
-    $current_date   =  current_time( 'Y-m-d' );
-    $trainee        = [];
-    $contract       = [];
+    $c_t_employees = erp_hr_get_contractual_employee();
+    $current_date  = current_time( 'Y-m-d' );
+    $trainee       = [];
+    $contract      = [];
 
     foreach ( $c_t_employees as $key => $user ) {
         $date1          = date_create( $current_date );
@@ -115,40 +113,43 @@ function erp_hr_dashboard_widget_about_to_end() {
         if ( $diff->days > 0 && $diff->days < 21 ) {
             $user->end_date = $end_date;
 
-            if ( $user->type == 'contract' ) {
+            if ( $user->type === 'contract' ) {
                 $contract[] = $user;
             }
 
-            if ( $user->type == 'trainee' ) {
+            if ( $user->type === 'trainee' ) {
                 $trainee[] = $user;
             }
         }
     }
+
     usort( $contract, function ( $a, $b ) {
         return $a->end_date > $b->end_date;
     } );
+
     usort( $trainee, function ( $a, $b ) {
         return $a->end_date > $b->end_date;
-    } ); ?>
+    } );
+
+    ?>
     <h4><?php esc_html_e( 'Contractual Employees', 'erp' ); ?></h4>
     <span class="wait"><?php esc_html_e( 'please wait ...', 'erp' ); ?></span>
 
     <ul class="erp-list list-two-side list-sep">
 
-        <?php foreach ( $contract as $key => $user ) {
-        $employee = new \WeDevs\ERP\HRM\Employee( intval( $user->user_id ) ); ?>
-                <li>
-                    <a href="<?php echo esc_url( $employee->get_details_url() ); ?>"><?php echo esc_html( $employee->get_full_name() ); ?></a>
-                    <span><?php echo esc_html( erp_format_date( $user->end_date, 'M, d' ) ); ?></span>
-                </li>
-        <?php
-    }
+    <?php
+    foreach ( $contract as $key => $user ) {
+        $employee = new \WeDevs\ERP\HRM\Employee( intval( $user->user_id ) );
+    ?>
+        <li>
+            <a href="<?php echo esc_url( $employee->get_details_url() ); ?>"><?php echo esc_html( $employee->get_full_name() ); ?></a>
+            <span><?php echo esc_html( erp_format_date( $user->end_date, 'M, d' ) ); ?></span>
+        </li>
+    <?php } ?>
 
-    if ( empty( $contract ) ) {
-        ?>
-                <li><?php esc_html_e( 'No employee found', 'erp' ); ?></li>
-                <?php
-    } ?>
+    <?php if ( empty( $contract ) ) { ?>
+        <li><?php esc_html_e( 'No employee found', 'erp' ); ?></li>
+    <?php } ?>
     </ul>
 
     <h4><?php esc_html_e( 'Trainee Employees', 'erp' ); ?></h4>
@@ -156,20 +157,19 @@ function erp_hr_dashboard_widget_about_to_end() {
 
     <ul class="erp-list list-two-side list-sep">
 
-        <?php foreach ( $trainee as $key => $user ) {
-        $employee = new \WeDevs\ERP\HRM\Employee( intval( $user->user_id ) ); ?>
-            <li>
-                <a href="<?php echo esc_url( $employee->get_details_url() ); ?>"><?php echo esc_html( $employee->get_full_name() ); ?></a>
-                <span><?php echo esc_html( erp_format_date( $user->end_date, 'M, d' ) ); ?></span>
-            </li>
-        <?php
-    }
+    <?php
+    foreach ( $trainee as $key => $user ) {
+        $employee = new \WeDevs\ERP\HRM\Employee( intval( $user->user_id ) );
+    ?>
+        <li>
+            <a href="<?php echo esc_url( $employee->get_details_url() ); ?>"><?php echo esc_html( $employee->get_full_name() ); ?></a>
+            <span><?php echo esc_html( erp_format_date( $user->end_date, 'M, d' ) ); ?></span>
+        </li>
+    <?php } ?>
 
-    if ( empty( $trainee ) ) {
-        ?>
-                <li><?php esc_html_e( 'No trainee found', 'erp' ); ?></li>
-                <?php
-    } ?>
+    <?php if ( empty( $trainee ) ) { ?>
+        <li><?php esc_html_e( 'No trainee found', 'erp' ); ?></li>
+    <?php } ?>
     </ul>
 
     <style>
@@ -209,33 +209,32 @@ function erp_hr_dashboard_widget_latest_announcement() {
     }
 
     if ( $announcements ) {
-        ?>
+    ?>
     <ul class="erp-list erp-dashboard-announcement">
-        <?php
-        $i = 0;
+        <?php $i = 0; ?>
 
-        foreach ( $announcements as $key => $announcement ) { ?>
+        <?php foreach ( $announcements as $key => $announcement ) { ?>
             <li class="<?php echo ( $announcement->status !== 'read' ) ? 'unread' : 'read'; ?>">
                 <div class="announcement-title">
-                    <a href="#" <?php echo ( $announcement->status == 'read' ) ? 'class="read"' : ''; ?>>
+                    <a href="#" <?php echo ( $announcement->status === 'read' ) ? 'class="read"' : ''; ?>>
                         <?php echo esc_html( $announcement->post_title ); ?>
                     </a> | <span class="announcement-date"><?php echo esc_html( erp_format_date( $announcement->post_date ) ); ?></span>
                 </div >
 
                 <?php
-                    $pcontent =  ( 0 == $i ) ? '<p>' . wp_trim_words( $announcement->post_content, 50 ) . '</p>' : '';
+                    $pcontent = ( 0 === $i ) ? '<p>' . wp_trim_words( $announcement->post_content, 50 ) . '</p>' : '';
                     echo wp_kses_post( $pcontent );
-                 ?>
+                ?>
 
                 <div class="announcement-row-actions">
                     <?php if ( ! current_user_can( erp_hr_get_manager_role() ) ) { ?>
-                        <a href="#" class="mark-read erp-tips <?php echo ( $announcement->status == 'read' ) ? 'erp-hide' : ''; ?>" title="<?php esc_html_e( 'Mark as Read', 'erp' ); ?>" data-row_id="<?php echo esc_html( $announcement->id ); ?>"><i class="dashicons dashicons-yes"></i></a>
+                        <a href="#" class="mark-read erp-tips <?php echo ( $announcement->status === 'read' ) ? 'erp-hide' : ''; ?>" title="<?php esc_html_e( 'Mark as Read', 'erp' ); ?>" data-row_id="<?php echo esc_html( $announcement->id ); ?>"><i class="dashicons dashicons-yes"></i></a>
                     <?php } ?>
                     <a href="#" class="view-full erp-tips" title="<?php esc_html_e( 'View full announcement', 'erp' ); ?>" data-row_id="<?php echo esc_html( $announcement->ID ); ?>"><i class="dashicons dashicons-editor-expand"></i></a>
                 </div>
             </li>
-        <?php $i++;
-        } ?>
+            <?php $i++; ?>
+        <?php } ?>
     </ul>
     <?php
     } else {
@@ -252,9 +251,10 @@ function erp_hr_dashboard_widget_latest_announcement() {
  */
 function erp_hr_dashboard_widget_whoisout() {
     $leave_requests           = erp_hr_get_current_month_leave_list();
-    $leave_requests_nextmonth = erp_hr_get_next_month_leave_list(); ?>
-    <?php if ( $leave_requests ) { ?>
+    $leave_requests_nextmonth = erp_hr_get_next_month_leave_list();
 
+    if ( $leave_requests ) {
+    ?>
         <h4><?php esc_html_e( 'This Month', 'erp' ); ?></h4>
 
         <ul class="erp-list list-two-side list-sep">
@@ -434,23 +434,23 @@ function erp_hr_dashboard_widget_leave_calendar() {
         <div>
             <table class="wp-list-table widefat fixed striped">
                 <tr>
-                    <th><strong><?php esc_html_e( 'Policy', 'erp' ) ;?></strong></th>
+                    <th><strong><?php esc_html_e( 'Policy', 'erp' ); ?></strong></th>
                     <td id="hdlp_policy"></td>
                 </tr>
                 <tr>
-                    <th><strong><?php esc_html_e( 'Start date', 'erp' ) ;?></strong></th>
+                    <th><strong><?php esc_html_e( 'Start date', 'erp' ); ?></strong></th>
                     <td id="hdlp_startdate"></td>
                 </tr>
                 <tr>
-                    <th><strong><?php esc_html_e( 'End date', 'erp' ) ;?></strong></th>
+                    <th><strong><?php esc_html_e( 'End date', 'erp' ); ?></strong></th>
                     <td id="hdlp_enddate"></td>
                 </tr>
                 <tr class="conditional_action_wrap">
-                    <th><strong><?php esc_html_e( 'Reason', 'erp' ) ;?></strong></th>
+                    <th><strong><?php esc_html_e( 'Reason', 'erp' ); ?></strong></th>
                     <td id="hdlp_reason"></td>
                 </tr>
                 <tr class="conditional_action_wrap">
-                    <th><strong><?php esc_html_e( 'Action', 'erp' ) ;?></strong></th>
+                    <th><strong><?php esc_html_e( 'Action', 'erp' ); ?></strong></th>
                     <td id="hdlp_action"><a target="_blank" class="button button-primary" href="#">Go to</a></td>
                 </tr>
             </table>

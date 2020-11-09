@@ -1,5 +1,5 @@
 <?php
-if ( isset( $_GET['filter_assign_contact' ] ) && !empty( $_GET['filter_assign_contact' ] ) ) {
+if ( isset( $_GET['filter_assign_contact'] ) && ! empty( $_GET['filter_assign_contact'] ) ) {
     $id          = intval( $_GET['filter_assign_contact'] );
     $custom_data = [
         'filter_assign_contact' => [
@@ -8,7 +8,7 @@ if ( isset( $_GET['filter_assign_contact' ] ) && !empty( $_GET['filter_assign_co
         ],
         'searchFields' => array_keys( erp_crm_get_serach_key( 'contact' ) ),
     ];
-} elseif ( isset( $_GET['filter_contact_company' ] ) && !empty( $_GET['filter_contact_company' ] ) ) {
+} elseif ( isset( $_GET['filter_contact_company'] ) && ! empty( $_GET['filter_contact_company'] ) ) {
     $id          = intval( $_GET['filter_contact_company'] );
     $custom_data = [
         'filter_contact_company' => [

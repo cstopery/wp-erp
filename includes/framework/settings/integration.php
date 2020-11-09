@@ -1,5 +1,4 @@
 <?php
-
 use WeDevs\ERP\Framework\ERP_Settings_Page;
 
 /**
@@ -51,15 +50,16 @@ class ERP_Integration_Settings extends ERP_Settings_Page {
                     <thead>
                         <tr>
                             <?php
-                                $columns = apply_filters( 'erp_integration_setting_columns', [
-                                    'name'        => __( 'Integration', 'erp' ),
-                                    'description' => __( 'Description', 'erp' ),
-                                    'actions'     => '',
-                                ] );
+                            $columns = apply_filters( 'erp_integration_setting_columns', [
+                                'name'        => __( 'Integration', 'erp' ),
+                                'description' => __( 'Description', 'erp' ),
+                                'actions'     => '',
+                            ] );
 
-                                foreach ( $columns as $key => $column ) {
-                                    echo '<th class="erp-settings-table-' . esc_attr( $key ) . '">' . esc_html( $column ) . '</th>';
-                                } ?>
+                            foreach ( $columns as $key => $column ) {
+                                echo '<th class="erp-settings-table-' . esc_attr( $key ) . '">' . esc_html( $column ) . '</th>';
+                            }
+                            ?>
                         </tr>
                     </thead>
                     <tbody>
@@ -97,10 +97,11 @@ class ERP_Integration_Settings extends ERP_Settings_Page {
 
                                     default:
                                         do_action( 'erp_integration_setting_column_' . $key, $integration );
-                                    break;
+                                        break;
                                 }
                             }
-                        } ?>
+                        }
+                        ?>
                     </tbody>
                 </table>
             </td>
@@ -151,7 +152,7 @@ class ERP_Integration_Settings extends ERP_Settings_Page {
                 $integrations = wperp()->integration->get_integrations();
 
                 foreach ( $integrations as $integration_key => $integration ) {
-                    if ( strtolower( $integration_key ) == $current_section ) {
+                    if ( strtolower( $integration_key ) === $current_section ) {
                         $settings       = $integration->get_form_fields();
                         $update_options = [];
 

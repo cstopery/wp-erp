@@ -1,5 +1,4 @@
 <?php
-
 namespace WeDevs\ERP\CRM;
 
 use WP_Error;
@@ -79,14 +78,14 @@ class Contact extends \WeDevs\ERP\People {
         $social_field = erp_crm_get_social_field();
 
         foreach ( $social_field as $social_key => $social_value ) {
-            $fields['social'][$social_key] = '';
+            $fields['social'][ $social_key ] = '';
         }
 
         $fields['types'] = $this->types;
 
         if ( $this->id ) {
             foreach ( $this->data as $key => $value ) {
-                $fields[$key] = $value;
+                $fields[ $key ] = $value;
             }
 
             $avatar_id              = (int) $this->get_meta( 'photo_id', true );
@@ -101,7 +100,7 @@ class Contact extends \WeDevs\ERP\People {
             }
 
             foreach ( $fields['social'] as $key => $value ) {
-                $fields['social'][$key] = $this->get_meta( $key, true );
+                $fields['social'][ $key ] = $this->get_meta( $key, true );
             }
 
             $contact_groups           = erp_crm_get_editable_assign_contact( $this->id );
@@ -144,11 +143,11 @@ class Contact extends \WeDevs\ERP\People {
      */
     public function get_details_url() {
         if ( $this->id ) {
-            if ( in_array( 'contact', $this->types ) ) {
+            if ( in_array( 'contact', $this->types, true ) ) {
                 return add_query_arg( [ 'page' => 'erp-crm', 'section' => 'contact', 'sub-section' => 'contacts', 'action' => 'view', 'id' => $this->id ], admin_url( 'admin.php' ) );
             }
 
-            if ( in_array( 'company', $this->types ) ) {
+            if ( in_array( 'company', $this->types, true ) ) {
                 return add_query_arg( [ 'page' => 'erp-crm', 'section' => 'contact', 'sub-section' => 'companies', 'action' => 'view', 'id' => $this->id ], admin_url( 'admin.php' ) );
             }
         }
@@ -303,7 +302,7 @@ class Contact extends \WeDevs\ERP\People {
      */
     public function get_country() {
         if ( $this->id ) {
-            return ( $this->country != '-1' ) ? erp_get_country_name( $this->country ) : '—';
+            return ( $this->country !== '-1' ) ? erp_get_country_name( $this->country ) : '—';
         }
     }
 
@@ -316,7 +315,7 @@ class Contact extends \WeDevs\ERP\People {
      */
     public function get_state() {
         if ( $this->id ) {
-            return ( $this->state != '-1' ) ? erp_get_state_name( $this->country, $this->state ) : '—';
+            return ( $this->state !== '-1' ) ? erp_get_state_name( $this->country, $this->state ) : '—';
         }
     }
 
@@ -413,11 +412,11 @@ class Contact extends \WeDevs\ERP\People {
      * @return bool|string|WP_Error
      */
     public function update_life_stage( $stage ) {
-        if ( $this->life_stage == $stage ) {
+        if ( $this->life_stage === $stage ) {
             return true;
         }
 
-        if ( ! in_array( $stage, array_keys( erp_crm_get_life_stages_dropdown_raw() ) ) ) {
+        if ( ! in_array( $stage, array_keys( erp_crm_get_life_stages_dropdown_raw() ), true ) ) {
             return new WP_Error( 'unknown-erp-life-stage', __( 'Life stage does not exists', 'erp' ) );
         }
 
