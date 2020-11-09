@@ -29,13 +29,14 @@ class ERP_Admin_Settings {
      * @return array
      */
     public static function get_settings() {
-        if ( !self::$settings ) {
+        if ( ! self::$settings ) {
             $settings = [];
 
             $settings[] = include __DIR__ . '/settings/general.php';
-            $settings[] = include __DIR__ . '/settings/email.php';
 
             $settings   = apply_filters( 'erp_settings_pages', $settings );
+
+            $settings[] = include __DIR__ . '/settings/email.php';
 
             // Display integrations tab only if any integration exist.
             $integrations = wperp()->integration->get_integrations();
@@ -80,22 +81,22 @@ class ERP_Admin_Settings {
         $current_tab = $query_arg['tab'] = isset( $_GET['tab'] ) ? sanitize_title( wp_unslash( $_GET['tab'] ) ) : $settings[0]->get_id();
 
         foreach ( $settings as $obj ) {
-            $sections[$obj->get_id()] = isset( $obj->sections ) ? $obj->sections : [];
+            $sections[ $obj->get_id() ] = isset( $obj->sections ) ? $obj->sections : [];
         }
 
-        if ( ! isset( $sections[$current_tab] ) ) {
+        if ( ! isset( $sections[ $current_tab ] ) ) {
             return $query_arg;
         }
 
-        if ( ! is_array( $sections[$current_tab] ) ) {
+        if ( ! is_array( $sections[ $current_tab ] ) ) {
             return $query_arg;
         }
 
-        if ( ! count( $sections[$current_tab] ) ) {
+        if ( ! count( $sections[ $current_tab ] ) ) {
             return $query_arg;
         }
 
-        $query_arg['subtab'] = isset( $_GET['section'] ) ? sanitize_title( wp_unslash( $_GET['section'] ) ) : key( $sections[$current_tab] );
+        $query_arg['subtab'] = isset( $_GET['section'] ) ? sanitize_title( wp_unslash( $_GET['section'] ) ) : key( $sections[ $current_tab ] );
 
         return $query_arg;
     }
@@ -124,9 +125,9 @@ class ERP_Admin_Settings {
 
         foreach ( $settings as $obj ) {
             $url   = sprintf( 'admin.php?page=erp-settings&tab=%s', $obj->get_id() );
-            $class = ( $current_tab == $obj->get_id() ) ? ' nav-tab-active' : '';
+            $class = ( $current_tab === $obj->get_id() ) ? ' nav-tab-active' : '';
 
-            if ( $current_tab == $obj->get_id() && $current_class === null ) {
+            if ( $current_tab === $obj->get_id() && $current_class === null ) {
                 $current_class = $obj;
             }
 
@@ -160,10 +161,10 @@ class ERP_Admin_Settings {
         }
 
         foreach ( $settings as $obj ) {
-            $sections[$obj->get_id()] = isset( $obj->sections ) ? $obj->sections : [];
+            $sections[ $obj->get_id() ] = isset( $obj->sections ) ? $obj->sections : [];
         }
 
-        $tab_sections = $sections[$current_tab];
+        $tab_sections = $sections[ $current_tab ];
 
         // don't print sub-sections if only one section available
         if ( count( $tab_sections ) < 1 ) {
@@ -180,7 +181,7 @@ class ERP_Admin_Settings {
 
         foreach ( $tab_sections as $slug => $label ) {
             $url    = 'admin.php?page=erp-settings&tab=' . $current_tab . '&section=' . $slug;
-            $class  = ( $current_section == $slug ) ? ' erp-nav-tab-active' : '';
+            $class  = ( $current_section === $slug ) ? ' erp-nav-tab-active' : '';
             $link[] = '<a class="erp-nav-tab' . $class . '" href="' . $url . '">' . $label . '</a>';
         }
 

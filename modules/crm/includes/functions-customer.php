@@ -668,7 +668,7 @@ function erp_crm_get_feed_activity( $postdata ) {
                 $wpdb->prepare(
                     'SELECT id FROM %s WHERE contact_owner = %d',
                     $wpdb->prefix . 'erp_peoples',
-                    $contact_owner;
+                    $contact_owner
                 ),
                 OBJECT_K
             )
