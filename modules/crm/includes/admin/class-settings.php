@@ -258,7 +258,7 @@ class CRM_Settings extends ERP_Settings_Page {
 
         $fields = apply_filters( 'erp_settings_crm_section_fields', $fields, $section );
 
-        $section = $section === false ? $fields['contacts'] : $fields[$section];
+        $section = $section === false ? $fields['contacts'] : $fields[ $section ];
 
         return $section;
     }

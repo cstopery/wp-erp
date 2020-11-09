@@ -62,7 +62,8 @@
                                                 continue;
                                             }
                                             $company_url = add_query_arg( [ 'page'      => 'erp-crm',
-                                                                              'section' => 'companies',
+                                                                              'section' => 'contact',
+                                                                              'sub-section' => 'companies',
                                                                               'status'  => $company_key,
                                             ], admin_url( 'admin.php' ) ); ?>
                                             <li>
@@ -78,7 +79,7 @@
                                 </div>
                             </div>
                         </div>
-                        <?php $companies_url = add_query_arg( ['page' => 'erp-crm', 'section' => 'companies'], admin_url( 'admin.php' ) ); ?>
+                        <?php $companies_url = add_query_arg( [ 'page' => 'erp-crm', 'section' => 'contact', 'sub-section' => 'companies' ], admin_url( 'admin.php' ) ); ?>
                         <div class="erp-info-box-footer">
                             <a href="<?php echo  esc_url_raw( $companies_url ); ?>"><?php esc_attr_e( 'View all Companies', 'erp' ); ?></a>
                         </div>

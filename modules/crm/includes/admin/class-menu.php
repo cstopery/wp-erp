@@ -44,42 +44,42 @@ class Admin_Menu {
         erp_add_menu( 'crm', [
             'title'      => __( 'Contacts', 'erp' ),
             'capability' => 'erp_crm_list_contact',
-            'slug'       => 'contacts',
-            'callback'   => [ $this, 'contact_page' ],
+            'slug'       => 'contact',
+            'callback'   => [ $this, 'contacts_page' ],
             'position'   => 5,
         ] );
 
-        erp_add_menu( 'crm', [
-            'title'      => __( 'Companies', 'erp' ),
-            'capability' => 'erp_crm_list_contact',
-            'slug'       => 'companies',
-            'callback'   => [ $this, 'company_page' ],
-            'position'   => 10,
-        ] );
+        // erp_add_menu( 'crm', [
+        //     'title'      => __( 'Companies', 'erp' ),
+        //     'capability' => 'erp_crm_list_contact',
+        //     'slug'       => 'companies',
+        //     'callback'   => [ $this, 'company_page' ],
+        //     'position'   => 10,
+        // ] );
+
+        // erp_add_menu( 'crm', [
+        //     'title'      => __( 'Activities', 'erp' ),
+        //     'capability' => 'erp_crm_manage_activites',
+        //     'slug'       => 'activities',
+        //     'callback'   => [ $this, 'activity_page' ],
+        //     'position'   => 15,
+        // ] );
 
         erp_add_menu( 'crm', [
-            'title'      => __( 'Activities', 'erp' ),
-            'capability' => 'erp_crm_manage_activites',
-            'slug'       => 'activities',
-            'callback'   => [ $this, 'activity_page' ],
-            'position'   => 15,
-        ] );
-
-        erp_add_menu( 'crm', [
-            'title'      => __( 'Schedules', 'erp' ),
+            'title'      => __( 'Tasks', 'erp' ),
             'capability' => 'erp_crm_manage_schedules',
-            'slug'       => 'schedules',
-            'callback'   => [ $this, 'schedules_page' ],
+            'slug'       => 'task',
+            'callback'   => [ $this, 'tasks_page' ],
             'position'   => 20,
         ] );
 
-        erp_add_menu( 'crm', [
-            'title'      => __( 'Contact Groups', 'erp' ),
-            'capability' => 'erp_crm_manage_groups',
-            'slug'       => 'contact-groups',
-            'callback'   => [ $this, 'contact_group_page' ],
-            'position'   => 25,
-        ] );
+        // erp_add_menu( 'crm', [
+        //     'title'      => __( 'Contact Groups', 'erp' ),
+        //     'capability' => 'erp_crm_manage_groups',
+        //     'slug'       => 'contact-groups',
+        //     'callback'   => [ $this, 'contact_group_page' ],
+        //     'position'   => 25,
+        // ] );
 
         erp_add_menu( 'crm', [
             'title'      => __( 'Reports', 'erp' ),
@@ -190,6 +190,26 @@ class Admin_Menu {
     }
 
     /**
+     * Handles the contacts wings page
+     *
+     * @since 1.6.8
+     *
+     * @return void
+     */
+    public function contacts_page() {
+        $subsection = isset( $_GET['sub-section'] ) ? sanitize_text_field( wp_unslash( $_GET['sub-section'] ) ) : 'contacts';
+
+        if ( 'contacts' === $subsection ) {
+            $this->contact_page();
+        } elseif ( 'companies' === $subsection ) {
+            $this->company_page();
+        } elseif ( 'contact-groups' === $subsection ) {
+            $this->contact_group_page();
+        } elseif ( 'activities' === $subsection ) {
+            $this->activity_page();
+        }
+    }
+    /**
      * Handles the dashboard page
      *
      * @since 1.0
@@ -296,6 +316,24 @@ class Admin_Menu {
      */
     public function oppurtunity_page() {
         include WPERP_CRM_VIEWS . '/dashboard.php';
+    }
+
+    /**
+     * Tasks page
+     *
+     * @since 1.6.8
+     *
+     * @return void
+     */
+    public function tasks_page() {
+        $default = has_filter( 'erp_crm_tasks_menu_items' ) ? 'tasks' : 'schedules';
+        $subsection = isset( $_GET['sub-section'] ) ? sanitize_text_field( wp_unslash( $_GET['sub-section'] ) ) : $default;
+
+        if ( 'schedules' === $subsection ) {
+            $this->schedules_page();
+        } elseif ( 'tasks' === $subsection ) {
+            do_action( 'erp_crm_tasks' );
+        }
     }
 
     /**

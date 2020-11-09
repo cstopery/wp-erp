@@ -60,7 +60,7 @@
                             continue;
                         } ?>
                         <li>
-                            <a href="<?php echo esc_url_raw( add_query_arg( [ 'page' => 'erp-crm', 'section' => 'companies', 'status' => $company_key ], admin_url( 'admin.php' ) ) ); ?>">
+                            <a href="<?php echo esc_url_raw( add_query_arg( [ 'page' => 'erp-crm', 'section' => 'contact', 'sub-section' => 'companies', 'status' => $company_key ], admin_url( 'admin.php' ) ) ); ?>">
                                 <?php
                                     $singular = $company_value['label'];
                         $plural               = erp_pluralize( $singular );
@@ -77,7 +77,7 @@
             </div>
 
             <div class="count-footer">
-                <a href="<?php echo esc_url_raw( add_query_arg( ['page' => 'erp-crm', 'section' => 'companies'], admin_url( 'admin.php' ) ) ); ?>"><?php esc_attr_e( 'View all Companies', 'erp' ); ?></a>
+                <a href="<?php echo esc_url_raw( add_query_arg( [ 'page' => 'erp-crm', 'section' => 'contact', 'sub-section' => 'companies' ], admin_url( 'admin.php' ) ) ); ?>"><?php esc_attr_e( 'View all Companies', 'erp' ); ?></a>
             </div>
         </li><!-- .count-box -->
 

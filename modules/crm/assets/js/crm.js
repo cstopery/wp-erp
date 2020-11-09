@@ -57,7 +57,15 @@
                 $('.custom-filter').hide();
             }
 
-            $( 'body').on( 'change', '#crm-filter-duration', this.report.customFilter );
+            $( 'body' ).on( 'change', '#crm-filter-duration', this.report.customFilter );
+
+            $( document ).click( function(e) {
+                if ( $( e.target ).closest( '.erp-select-container' ).length ) {
+                    $( '.erp-options' ).toggle();
+                } else if ( ! $( e.target ).closest( '.erp-options' ).length ) {
+                    $( '.erp-options' ).hide();
+                }
+            });
 
             // CRM tag
             this.initTagAddByEnterPressed();

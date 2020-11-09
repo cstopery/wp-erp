@@ -1,7 +1,7 @@
 <?php
 $contact_tags     = wp_get_object_terms( $customer->id, 'erp_crm_tag', ['orderby' => 'name', 'order' => 'ASC'] );
 $contact_tags     = wp_list_pluck( $contact_tags, 'name' );
-$contact_list_url = add_query_arg( ['page' => 'erp-crm', 'section' => 'contacts'], admin_url( 'admin.php' ) );
+$contact_list_url = add_query_arg( ['page' => 'erp-crm', 'section' => 'contact', 'sub-section' => 'contacts' ], admin_url( 'admin.php' ) );
 ?>
 <div class="wrap erp erp-crm-customer erp-single-customer" id="wp-erp" v-cloak>
     <h2><?php esc_attr_e( 'Contact #', 'erp' ); echo esc_attr( $customer->id ); ?>
