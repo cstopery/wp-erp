@@ -2,7 +2,7 @@
 
     <h2>
         <?php
-        esc_html_e( 'Employees', 'erp' );
+        do_action( 'erp_hr_people_menu_dropdown', 'employee' );
 
         if ( current_user_can( 'erp_create_employee' ) ) {
             ?>
@@ -35,7 +35,6 @@
     </div><!-- .list-table-wrap -->
 
     <?php
-
     $employee_count = \WeDevs\ERP\HRM\Models\Employee::withTrashed()->count();
 
     if ( empty( $employee_count ) ) {
@@ -49,6 +48,5 @@
         return;
     }
     ?>
-
 
 </div>

@@ -148,7 +148,7 @@ class Human_Resource {
         wp_enqueue_media();
         wp_enqueue_script( 'erp-tiptip' );
 
-        if ( isset( $_GET['section'] ) && $_GET['section'] === 'employee' ) {
+        if ( isset( $_GET['section'] ) && $_GET['section'] === 'people' ) {
             wp_enqueue_style( 'erp-sweetalert' );
             wp_enqueue_script( 'erp-sweetalert' );
         }
@@ -219,7 +219,7 @@ class Human_Resource {
         $section = isset( $_GET['section'] ) ? sanitize_text_field( wp_unslash( $_GET['section'] ) ) : 'dashboard';
 
         switch ( $section ) {
-            case 'employee':
+            case 'people':
                 wp_enqueue_script( 'post' );
                 $employee                          = new Employee();
                 $localize_script['employee_empty'] = $employee->to_array();
@@ -282,18 +282,9 @@ class Human_Resource {
         }
 
         $section = isset( $_GET['section'] ) ? sanitize_text_field( wp_unslash( $_GET['section'] ) ) : 'dashboard';
+
         switch ( $section ) {
-            case 'department':
-                erp_get_js_template( WPERP_HRM_JS_TMPL . '/new-dept.php', 'erp-new-dept' );
-                erp_get_js_template( WPERP_HRM_JS_TMPL . '/row-dept.php', 'erp-dept-row' );
-                break;
-
-            case 'designation':
-                erp_get_js_template( WPERP_HRM_JS_TMPL . '/new-designation.php', 'erp-new-desig' );
-                erp_get_js_template( WPERP_HRM_JS_TMPL . '/row-desig.php', 'erp-desig-row' );
-                break;
-
-            case 'employee':
+            case 'people':
             case 'my-profile':
                 erp_get_js_template( WPERP_HRM_JS_TMPL . '/new-employee.php', 'erp-new-employee' );
                 erp_get_js_template( WPERP_HRM_JS_TMPL . '/row-employee.php', 'erp-employee-row' );
@@ -331,6 +322,34 @@ class Human_Resource {
 
             case 'leave-requests':
                 erp_get_js_template( WPERP_HRM_JS_TMPL . '/leave-reject.php', 'erp-hr-leave-reject-js-tmp' );
+                break;
+
+            case 'department':
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/new-dept.php', 'erp-new-dept' );
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/row-dept.php', 'erp-dept-row' );
+                break;
+
+            case 'designation':
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/new-designation.php', 'erp-new-desig' );
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/row-desig.php', 'erp-desig-row' );
+                break;
+
+            case 'employee':
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/new-employee.php', 'erp-new-employee' );
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/row-employee.php', 'erp-employee-row' );
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/employment-type.php', 'erp-employment-type' );
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/employment-status.php', 'erp-employment-status' );
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/compensation.php', 'erp-employment-compensation' );
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/job-info.php', 'erp-employment-jobinfo' );
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/work-experience.php', 'erp-employment-work-experience' );
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/education-form.php', 'erp-employment-education' );
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/performance-reviews.php', 'erp-employment-performance-reviews' );
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/performance-comments.php', 'erp-employment-performance-comments' );
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/performance-goals.php', 'erp-employment-performance-goals' );
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/dependents.php', 'erp-employment-dependent' );
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/new-dept.php', 'erp-new-dept' );
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/new-designation.php', 'erp-new-desig' );
+                erp_get_js_template( WPERP_HRM_JS_TMPL . '/employee-terminate.php', 'erp-employment-terminate' );
                 break;
 
             default:

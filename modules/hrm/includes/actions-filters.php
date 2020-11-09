@@ -27,3 +27,5 @@ add_filter( 'erp_hr_get_employee_fields', 'get_employee_additional_fields', 10, 
 
 // Send Birthday email wish to employee
 add_action( 'erp_hr_happened_birthday_today', 'erp_hr_send_birthday_wish_email', 10, 1 );
+
+add_action( 'erp_hr_people_menu_dropdown', 'erp_hr_get_people_menu_dropdown_html' );

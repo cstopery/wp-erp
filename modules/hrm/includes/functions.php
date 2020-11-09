@@ -477,3 +477,41 @@ function erp_hr_send_birthday_wish_email( $user_id ) {
     }
 }
 /****************** Send Birthday wish email End ********************/
+
+/**
+ * Retrieves html for hr people menu dropdown
+ *
+ * @since 1.6.8
+ *
+ * @param string $selected
+ *
+ * @return void
+ */
+function erp_hr_get_people_menu_dropdown_html( $selected = 'employee' ) {
+    $dropdown = [
+        'employee'     => esc_html__( 'Employees', 'erp' ),
+        'department'   => esc_html__( 'Departments', 'erp' ),
+        'designation'  => esc_html__( 'Designations', 'erp' ),
+        'announcement' => esc_html__( 'Announcements', 'erp' ),
+    ];
+
+    $dropdown = apply_filters( 'erp_hr_people_menu_items', $dropdown );
+
+    ob_start();
+    ?>
+
+    <div class="erp-select-container select-primary combo-box">
+        <div class="erp-selected-option">
+            <?php echo array_key_exists( $selected, $dropdown ) ? $dropdown[ $selected ] : ''; ?>
+            <span class="caret"></span>
+        </div>
+        <ul class="erp-options">
+            <?php foreach ( $dropdown as $key => $value ) : ?>
+            <li><a href="<?php echo ( 'announcement' !== $key ) ? add_query_arg( array( 'sub-section' => $key ), admin_url( "admin.php?page=erp-hr&section=people" ) ) : admin_url( 'edit.php?post_type=erp_hr_announcement' ); ?>" class="" data-key="<?php echo $key; ?>"><?php echo $value; ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+
+    <?php
+    echo ob_get_clean();
+}

@@ -1,6 +1,9 @@
 <div class="wrap erp-hr-depts">
 
-    <h2><?php esc_html_e( 'Departments', 'erp' ); ?> <a href="#" id="erp-new-dept" class="add-new-h2" data-single="1"><?php esc_html_e( 'Add New', 'erp' ); ?></a></h2>
+    <h2>
+        <?php do_action( 'erp_hr_people_menu_dropdown', 'department' ); ?>
+        <a href="#" id="erp-new-dept" class="add-new-h2" data-single="1"><?php esc_html_e( 'Add New', 'erp' ); ?></a>
+    </h2>
 
     <?php if ( isset( $_GET['department_delete'] ) ) { ?>
         <div id="message" class="error notice is-dismissible below-h2">

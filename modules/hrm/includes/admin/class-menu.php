@@ -37,10 +37,10 @@ class Admin_Menu {
         ] );
 
         erp_add_menu( 'hr', [
-            'title'       => __( 'Employees', 'erp' ),
+            'title'       => __( 'People', 'erp' ),
             'capability'  => 'erp_list_employee',
-            'slug'        => 'employee',
-            'callback'    => [ $this, 'employee_page' ],
+            'slug'        => 'people',
+            'callback'    => [ $this, 'people_page' ],
             'position'    => 5,
         ] );
 
@@ -54,30 +54,30 @@ class Admin_Menu {
             ] );
         }
 
-        erp_add_menu( 'hr', [
-            'title'         => __( 'Departments', 'erp' ),
-            'capability'    => 'erp_manage_department',
-            'slug'          => 'department',
-            'callback'      => [ $this, 'department_page' ],
-            'position'      => 10,
-        ] );
+        // erp_add_menu( 'hr', [
+        //     'title'         => __( 'Departments', 'erp' ),
+        //     'capability'    => 'erp_manage_department',
+        //     'slug'          => 'department',
+        //     'callback'      => [ $this, 'department_page' ],
+        //     'position'      => 10,
+        // ] );
 
-        erp_add_menu( 'hr', [
-            'title'         => __( 'Designations', 'erp' ),
-            'capability'    => 'erp_manage_designation',
-            'slug'          => 'designation',
-            'callback'      => [ $this, 'designation_page' ],
-            'position'      => 15,
-        ] );
+        // erp_add_menu( 'hr', [
+        //     'title'         => __( 'Designations', 'erp' ),
+        //     'capability'    => 'erp_manage_designation',
+        //     'slug'          => 'designation',
+        //     'callback'      => [ $this, 'designation_page' ],
+        //     'position'      => 15,
+        // ] );
 
-        erp_add_menu( 'hr', [
-            'title'         => __( 'Announcements', 'erp' ),
-            'capability'    => 'erp_manage_announcement',
-            'slug'          => 'announcement',
-            'direct_link'   => admin_url( 'edit.php?post_type=erp_hr_announcement' ),
-            'callback'      => '',
-            'position'      => 20,
-        ] );
+        // erp_add_menu( 'hr', [
+        //     'title'         => __( 'Announcements', 'erp' ),
+        //     'capability'    => 'erp_manage_announcement',
+        //     'slug'          => 'announcement',
+        //     'direct_link'   => admin_url( 'edit.php?post_type=erp_hr_announcement' ),
+        //     'callback'      => '',
+        //     'position'      => 20,
+        // ] );
 
         erp_add_menu( 'hr', [
             'title'         => __( 'Reports', 'erp' ),
@@ -150,7 +150,7 @@ class Admin_Menu {
         }
 
         erp_add_menu( 'hr', [
-            'title'         => __( 'Leave Management', 'erp' ),
+            'title'         => __( 'Leave', 'erp' ),
             'capability'    => $request_capabilities,
             'slug'          => 'leave',
             'callback'      => [ $this, 'leave_requests' ],
@@ -260,7 +260,26 @@ class Admin_Menu {
     }
 
     /**
-     * Handles the dashboard page
+     * Handles the people page
+     *
+     * @since 1.6.8
+     *
+     * @return void
+     */
+    public function people_page() {
+        $subsection = isset( $_GET['sub-section'] ) ? sanitize_text_field( wp_unslash( $_GET['sub-section'] ) ) : 'employee';
+
+        if ( 'employee' === $subsection ) {
+            $this->employee_page();
+        } elseif ( 'department' === $subsection ) {
+            $this->department_page();
+        } elseif ( 'designation' === $subsection ) {
+            $this->designation_page();
+        }
+    }
+
+    /**
+     * Handles the employee page
      *
      * @return void
      */

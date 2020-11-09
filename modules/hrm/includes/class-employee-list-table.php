@@ -277,7 +277,7 @@ class Employee_List_Table extends \WP_List_Table {
      */
     public function get_views() {
         $status_links   = [];
-        $base_link      = admin_url( 'admin.php?page=erp-hr&section=employee&orderby=employee_name&order=asc' );
+        $base_link      = admin_url( 'admin.php?page=erp-hr&section=people&sub-section=employee&orderby=employee_name&order=asc' );
 
         foreach ( $this->counts as $key => $value ) {
             $class                = ( $key == $this->page_status ) ? 'current' : 'status-' . $key;

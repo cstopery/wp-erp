@@ -83,6 +83,14 @@
             $('body').on( 'erp-hr-after-new-dept', this.department.afterNew );
             $('body').on( 'erp-hr-after-new-desig', this.designation.afterNew );
 
+            $( document ).click( function(e) {
+                if ( $( e.target ).closest( '.erp-select-container' ).length ) {
+                    $( '.erp-options' ).toggle();
+                } else if ( ! $( e.target ).closest( '.erp-options' ).length ) {
+                    $( '.erp-options' ).hide();
+                }
+            });
+
             this.initTipTip();
         },
 
