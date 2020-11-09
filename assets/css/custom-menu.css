@@ -1,0 +1,92 @@
+.erp-select-container {
+    display  : inline-flex;
+    width    : auto;
+    position : relative;
+    height   : 35px;
+    font-size: 20px;
+  }
+
+.erp-select-container .erp-selected-option {
+    display        : flex;
+    justify-content: space-between;
+    background     : #1A9ED4;
+    color          : #fff;
+    padding        : 3px 15px;
+    border-radius  : 3px;
+    white-space    : nowrap;
+    cursor         : pointer;
+    min-width      : 50px;
+}
+
+.erp-select-container a:hover {
+    text-decoration: none;
+ }
+
+.erp-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    min-width: 100%;
+    white-space: nowrap;
+    list-style: none;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #ECECEC;
+    border-radius: 3px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+    margin: 6px 0 0;
+    padding: 5px 0;
+    font-size: 14px;
+    display: none;
+}
+
+.erp-options:after,
+.erp-options:before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: 20px;
+    border-bottom: 5px solid #ECECEC;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+}
+
+.erp-options:after {
+    top: -4px;
+    right: 20px;
+    border-bottom-color: #fff;
+}
+
+.erp-options li {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    margin: 0;
+}
+
+.erp-options li a {
+    padding: 5px 20px;
+    display: block;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.6;
+    color: #333333;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.erp-options li a:hover {
+    background: #ECECEC;
+    color: #1A9ED4;
+}
+
+.caret {
+    position: relative;
+    top: 14px;
+    margin-left: 4px;
+    border-top: 4px solid #fff;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
