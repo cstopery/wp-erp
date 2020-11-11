@@ -1,5 +1,4 @@
 <?php
-
 namespace WeDevs\ERP\Accounting\Includes\Classes;
 
 use WeDevs\ERP\Framework\ERP_Settings_Page;
@@ -34,6 +33,8 @@ class Settings extends ERP_Settings_Page {
 
     /**
      * Get sections fields
+     *
+     * @since 1.0.3 Added filter 'erp_settings_acct_section_fields'
      *
      * @return array
      */
@@ -138,6 +139,8 @@ class Settings extends ERP_Settings_Page {
                 'id'   => 'script_styling_options',
             ],
         ]; // End opening balance settings
+
+        $fields = apply_filters( 'erp_settings_acct_section_fields', $fields, $section );
 
         $section = false === $section ? $fields['checkout'] : isset( $fields[ $section ] ) ? $fields[ $section ] : [];
 
