@@ -28,7 +28,7 @@ $date_format = get_option( 'date_format' );
                         $line = 0;
 
                         foreach ( $compensations['compensation'] as $compensation ) {
-                            $employee_url = '<a href="' . admin_url( 'admin.php?page=erp-hr&section=employee&action=view&id=' . $employee->get_user_id() ) . '">' . $employee->display_name . '</a>';
+                            $employee_url = '<a href="' . admin_url( 'admin.php?page=erp-hr&section=people&sub-section=employee&action=view&id=' . $employee->get_user_id() ) . '">' . $employee->display_name . '</a>';
                             $emp_url      = ( 0 == $line ? wp_kses_post( $employee_url ) : '' );
                             echo '<tr>';
                             echo '<td>' . wp_kses_post( $emp_url ) . '</td>';
