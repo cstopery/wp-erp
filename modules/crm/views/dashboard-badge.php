@@ -40,7 +40,7 @@ $companies_count = erp_crm_customer_get_status_count( 'company' );
             </div>
 
             <div class="count-footer">
-                <a href="<?php echo esc_url_raw( admin_url( 'admin.php?page=erp-crm&section=contacts' ) ); ?>"><?php esc_attr_e( 'View all Contacts', 'erp' ); ?></a>
+                <a href="<?php echo esc_url_raw( admin_url( 'admin.php?page=erp-crm&section=contact&sub-section=contacts' ) ); ?>"><?php esc_attr_e( 'View all Contacts', 'erp' ); ?></a>
             </div>
         </li><!-- .count-box -->
 
