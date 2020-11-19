@@ -150,12 +150,12 @@ class ERP_Settings_Contact_Forms {
                 filter we'll see this notice */
             $fields['contact_forms'] = [
                 [
-                    'title' => $plugin['title'],
+                    'title' => $plugins[ $sub_section ]['title'],
                     'type'  => 'title',
                     'desc'  => sprintf(
                                 '%s' . __( "You don't have any form created with %s!", 'erp' ) . '%s',
                                 '<section class="notice notice-warning cfi-hide-submit"><p>',
-                                $plugin['title'],
+                                $plugins[ $sub_section ]['title'],
                                 '</p></section>'
                             ),
                     'id' => 'section_' . $sub_section,
