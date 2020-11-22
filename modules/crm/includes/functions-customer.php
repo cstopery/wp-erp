@@ -2747,10 +2747,20 @@ function erp_crm_contact_forms() {
 function erp_crm_settings_pages( $settings ) {
     if ( erp_crm_is_current_user_manager() ) {
         $settings[] = new \WeDevs\ERP\CRM\CRM_Settings();
-        \WeDevs\ERP\CRM\ContactForms\ERP_Settings_Contact_Forms::init();
     }
 
     return $settings;
+}
+
+/**
+ * Instanciates contact form settings in CRM section
+ *
+ * @since 1.6.10
+ *
+ * @return void
+ */
+function erp_crm_contact_form_section() {
+    \WeDevs\ERP\CRM\ContactForms\ERP_Settings_Contact_Forms::init();
 }
 
 /**
@@ -4057,7 +4067,7 @@ function erp_crm_get_contacts_menu_dropdown_html( $selected = 'contacts' ) {
         </div>
         <ul class="erp-options">
             <?php foreach ( $dropdown as $key => $value ) : ?>
-                <?php if ( 'life-stages' === $key ) : ?>
+                <?php if ( 'crm_life_stages' === $key ) : ?>
                 <li><a href="<?php echo add_query_arg( array( 'section' => $key ), admin_url( 'admin.php?page=erp-settings&tab=erp-crm' ) ); ?>" class="" data-key="<?php echo $key; ?>"><?php echo $value; ?></a></li>
                 <?php else : ?>
                 <li><a href="<?php echo add_query_arg( array( 'sub-section' => $key ), admin_url( 'admin.php?page=erp-crm&section=contact' ) ); ?>" class="" data-key="<?php echo $key; ?>"><?php echo $value; ?></a></li>

@@ -14,16 +14,12 @@ class ERP_Settings_Contact_Forms {
     /**
      * Class constructor
      */
-    private function __construct() {
+    public function __construct() {
         $this->crm_options        = $this->get_crm_contact_options();
         $this->active_plugin_list = $this->get_active_plugin_list();
 
-        // option field type
-        $this->action( 'erp_admin_field_match_form_fields', 'output_match_form_fields' );
-
-        add_filter( 'erp_settings_crm_sections', [ $this, 'crm_contact_forms_section' ] );
-        add_filter( 'erp_settings_crm_section_fields', [ $this, 'crm_contact_forms_section_fields' ], 10, 2 );
-        $this->action( 'erp_admin_field_contact_form_options', 'output_match_form_fields' );
+        $this->filter( 'erp_settings_crm_section_fields', 'crm_contact_forms_section_fields', 10, 2 );
+        $this->action( 'erp_admin_field_contact_form_options', 'output_contact_form_options' );
 
         foreach ( $this->active_plugin_list as $slug => $plugin ) {
             $this->forms[ $slug ] = apply_filters( "crm_get_{$slug}_forms", [] );
@@ -81,19 +77,6 @@ class ERP_Settings_Contact_Forms {
     }
 
     /**
-     * Settings option for contact forms
-     *
-     * @param array $sections
-     *
-     * @return array
-     */
-    public function crm_contact_forms_section( $sections ) {
-        $sections['contact_forms'] = __( 'Contact Forms', 'erp' );
-
-        return $sections;
-    }
-
-    /**
      * Settings fields for contact forms
      *
      * @param array $fields
@@ -116,8 +99,6 @@ class ERP_Settings_Contact_Forms {
                             ),
                     'id' => 'contact_form_options',
                 ],
-
-                [ 'type' => 'sectionend', 'id' => 'contact_form_options' ],
             ];
 
             return $fields;
@@ -129,11 +110,11 @@ class ERP_Settings_Contact_Forms {
         $forms       = $this->forms[ $sub_section ];
 
         if ( 'contact_forms' === $cur_section ) {
-            printf( '<ul class="subsubsub" style="padding-bottom: 15px;">' );
+            printf( '<ul class="subsubsub" style="margin-bottom: 15px; background-color: white;">' );
 
             foreach ( $plugins as $slug => $plugin ) {
                 printf(
-                    '<li><a href="%s" class="%s">%s</a> %s </li>',
+                    '<li"><a href="%s" class="%s">%s</a> %s </li>',
                     esc_url( admin_url( 'admin.php?page=erp-settings&tab=erp-crm&section=contact_forms&sub-section=' . sanitize_title( $slug ) ) ),
                     ( $sub_section === $slug ? 'current' : '' ),
                     esc_html( $plugin['title'] ),
@@ -160,8 +141,6 @@ class ERP_Settings_Contact_Forms {
                             ),
                     'id' => 'section_' . $sub_section,
                 ],
-
-                [ 'type' => 'sectionend', 'id' => 'script_styling_options' ],
             ];
         } else {
             foreach ( $forms as $form_id => $form ) {
@@ -175,7 +154,7 @@ class ERP_Settings_Contact_Forms {
                 $fields['contact_forms'][] = [
                     'plugin'        => $sub_section,
                     'form_id'       => $form_id,
-                    'type'          => 'match_form_fields',
+                    'type'          => 'contact_form_options',
                 ];
 
                 $fields['contact_forms'][] = [ 'type' => 'sectionend', 'id' => 'section_' . $form['name'] ];
@@ -192,7 +171,7 @@ class ERP_Settings_Contact_Forms {
      *
      * @return void
      */
-    public function output_match_form_fields( $value ) {
+    public function output_contact_form_options( $value ) {
         ?>
         <tr class="cfi-table-container cfi-hide-submit">
             <td style="padding-left: 0; padding-top: 0;">

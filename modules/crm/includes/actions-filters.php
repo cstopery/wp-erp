@@ -9,6 +9,7 @@ add_action( 'erp_crm_dashboard_widgets_right', 'erp_crm_dashboard_right_widgets_
 add_action( 'erp_crm_dashboard_widgets_left', 'erp_crm_dashboard_left_widgets_area' );
 add_action( 'plugins_loaded', 'erp_crm_contact_forms' );
 add_action( 'erp_settings_pages', 'erp_crm_settings_pages' );
+add_action( 'admin_init', 'erp_crm_contact_form_section' );
 add_action( 'erp_hr_permission_management', 'erp_crm_permission_management_field' );
 add_action( 'admin_footer-users.php', 'erp_user_bulk_actions' );
 add_action( 'load-users.php', 'erp_handle_user_bulk_actions' );
